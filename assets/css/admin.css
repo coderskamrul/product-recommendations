@@ -1,0 +1,165 @@
+.wc-product-recommendations-admin {
+  max-width: 1200px;
+}
+
+.nav-tab-wrapper {
+  margin-bottom: 2em;
+}
+
+.tab-content {
+  display: none;
+  background: #fff;
+  padding: 2em;
+  border: 1px solid #ccd0d4;
+  border-top: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.form-table th {
+  width: 200px;
+  padding: 15px 10px 15px 0;
+}
+
+.form-table td {
+  padding: 15px 10px;
+}
+
+.form-table fieldset label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-table fieldset input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+.form-table input[type="number"] {
+  width: 80px;
+}
+
+.form-table select {
+  min-width: 200px;
+}
+
+.wc-product-recommendations-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1em;
+  margin-bottom: 2em;
+}
+
+.stat-box {
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  border-radius: 4px;
+  padding: 1.5em;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2em;
+  font-weight: 600;
+  color: #0073aa;
+  display: block;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+}
+
+.tools-section {
+  background: #f9f9f9;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  padding: 1.5em;
+  margin-bottom: 1em;
+}
+
+.tools-section h4 {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.tools-buttons {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.tools-buttons .button {
+  min-width: 150px;
+}
+
+.notice-info {
+  background: #e7f3ff;
+  border-left: 4px solid #0073aa;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.notice-warning {
+  background: #fff8e5;
+  border-left: 4px solid #ffb900;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.notice-error {
+  background: #ffe6e6;
+  border-left: 4px solid #dc3232;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+/* Product edit page styles */
+.wc-product-recommendations-fields {
+  border-top: 1px solid #eee;
+  padding-top: 1em;
+  margin-top: 1em;
+}
+
+.wc-product-recommendations-fields .form-field {
+  margin-bottom: 1.5em;
+}
+
+.wc-product-recommendations-fields label {
+  font-weight: 600;
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+.wc-product-recommendations-fields .select2-container {
+  min-width: 300px;
+}
+
+/* Responsive admin styles */
+@media (max-width: 768px) {
+  .wc-product-recommendations-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-buttons {
+    flex-direction: column;
+  }
+
+  .tools-buttons .button {
+    width: 100%;
+  }
+
+  .form-table th,
+  .form-table td {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .form-table th {
+    border-bottom: none;
+    padding-bottom: 5px;
+  }
+}

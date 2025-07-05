@@ -1,0 +1,318 @@
+# Copyright (C) 2025 Product Recommendations Engine
+# This file is distributed under the same license as the Product Recommendations Engine package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Product Recommendations Engine 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-recommendations\n"
+"POT-Creation-Date: 2025-06-17 05:50:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/class-wc-product-recommendations-admin.php:25
+msgid "Product Recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:26
+msgid "Recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:100
+msgid "Setting Configuration"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:108
+msgid "Recommendation Engines"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:116
+#: includes/class-wc-product-recommendations-admin.php:218
+msgid "Display Settings"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:131
+msgid "Enable Recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:137
+msgid "Enable product recommendations globally"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:143
+msgid "Active Engine"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:150
+msgid "Content-Based (Categories/Tags)"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:151
+msgid "Association-Based (Frequently Bought Together)"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:152
+msgid "Hybrid (Both Engines)"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:154
+msgid "Choose which recommendation engine to use"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:160
+msgid "Display Locations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:166
+msgid "Single Product Page"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:167
+msgid "Cart Page"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:168
+msgid "Checkout Page"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:175
+msgid "Maximum Recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:183
+msgid "Maximum number of products to recommend"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:198
+msgid "General"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:199
+msgid "Engines"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:200
+msgid "Display"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:201
+msgid "Tools"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:208
+msgid "General Settings"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:213
+msgid "Engine Configuration"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:223
+msgid "Tools & Maintenance"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:242
+msgid "Content Engine Settings"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:247
+msgid "Match by Categories"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:251
+msgid "Match by Tags"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:255
+msgid "Match by Attributes"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:258
+msgid "Sort by:"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:260
+msgid "Popularity"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:261
+msgid "Rating"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:262
+msgid "Price: Low to High"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:263
+msgid "Price: High to Low"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:264
+msgid "Newest First"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:271
+msgid "Association Engine Settings"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:275
+msgid "Minimum Support (co-purchases):"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:279
+msgid "Days to look back:"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:283
+msgid "Minimum Confidence:"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:288
+msgid "Include view history (requires tracking)"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:305
+msgid "Section Title"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:308
+msgid "Title displayed above recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:312
+msgid "Columns"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:321
+msgid "Number of columns to display recommendations in"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:325
+msgid "Display Options"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:330
+msgid "Show Price"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:334
+msgid "Show Rating"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:338
+msgid "Show Add to Cart Button"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:364
+msgid "Recommendation Data"
+msgstr ""
+
+#. translators: %d is the number of current recommendations in the database.
+
+#: includes/class-wc-product-recommendations-admin.php:369
+msgid "Current recommendations in database: %d"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:372
+msgid "Rebuild Recommendation Data"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:373
+msgid "Clear All Data"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:374
+msgid "Rebuild data to update recommendations based on recent orders. This may take a few minutes."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:378
+msgid "Export/Import"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:380
+msgid "Export Settings"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:381
+msgid "Import Settings"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:382
+msgid "Export or import plugin settings for backup or migration."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:397
+msgid "Custom Recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:398
+msgid "Search for products&hellip;"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:411
+msgid "Manually select products to recommend for this product. These will override algorithmic recommendations."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:415
+msgid "Exclude from Recommendations"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:416
+msgid "Search for products to exclude&hellip;"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:429
+msgid "Products that should never be recommended for this product."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:513
+msgid "Configure general recommendation settings."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:520
+msgid "Configure recommendation engine parameters."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-admin.php:527
+msgid "Configure how recommendations are displayed."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-ajax.php:58
+#: includes/class-wc-product-recommendations-ajax.php:75
+msgid "Insufficient permissions"
+msgstr ""
+
+#: includes/class-wc-product-recommendations-ajax.php:65
+msgid "Recommendation data rebuild scheduled. This may take a few minutes."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-ajax.php:83
+msgid "All recommendation data cleared."
+msgstr ""
+
+#: includes/class-wc-product-recommendations-display.php:101
+msgid "You might also like"
+msgstr ""
+
+#. translators: %s: Plugin name.
+
+#: product-recommendations.php:271
+msgid "%s requires WooCommerce to be installed and active."
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Product Recommendations Engine"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Local, data-driven product recommendations for WooCommerce with multiple engines and comprehensive admin controls."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "hmdkamrul"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://profiles.wordpress.org/hasandev/"
+msgstr ""
