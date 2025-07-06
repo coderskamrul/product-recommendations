@@ -247,7 +247,7 @@ class PROREEN_Product_Recommendations {
 	public function admin_enqueue_scripts( $hook ) {
 		if ( strpos( $hook, 'product-recommendations' ) !== false ) {
 			wp_enqueue_script(
-				'wc-product-recommendations-admin',
+				'proreen-product-recommendations-admin',
 				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
 				array( 'jquery' ),
 				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION,
@@ -255,7 +255,7 @@ class PROREEN_Product_Recommendations {
 			);
 
 			wp_enqueue_style(
-				'wc-product-recommendations-admin',
+				'proreen-product-recommendations-admin',
 				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
 				array(),
 				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION
