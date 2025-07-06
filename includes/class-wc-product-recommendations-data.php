@@ -38,7 +38,7 @@ class PREProduct_Recommendations_Data {
 		$days_back      = isset( $association_settings['days_back'] ) ? intval( $association_settings['days_back'] ) : 365;
 		$min_confidence = isset( $association_settings['min_confidence'] ) ? floatval( $association_settings['min_confidence'] ) : 0.1;
 
-		$date_from = date( 'Y-m-d', strtotime( "-{$days_back} days" ) );
+		$date_from = gmdate( 'Y-m-d', strtotime( "-{$days_back} days" ) );
 
 		// Get orders from the specified period
 		$orders = wc_get_orders(
@@ -131,32 +131,36 @@ class PREProduct_Recommendations_Data {
 
 		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
 
-		// Remove recommendations for products that no longer exist.
-		$query = "
-			DELETE r FROM {$table_name} r
-			LEFT JOIN {$wpdb->posts} p1 ON r.product_id = p1.ID
-			LEFT JOIN {$wpdb->posts} p2 ON r.recommended_product_id = p2.ID
-			WHERE p1.ID IS NULL OR p2.ID IS NULL 
-			OR p1.post_status != 'publish' 
-			OR p2.post_status != 'publish'
-		";
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$wpdb->query( $query );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Direct query necessary; table name cannot be parameterized
+		$wpdb->query(
+			$wpdb->prepare(
+				"
+				DELETE r FROM {$table_name} r
+				LEFT JOIN {$wpdb->posts} p1 ON r.product_id = p1.ID
+				LEFT JOIN {$wpdb->posts} p2 ON r.recommended_product_id = p2.ID
+				WHERE p1.ID IS NULL OR p2.ID IS NULL 
+				OR p1.post_status != %s 
+				OR p2.post_status != %s
+				",
+				'publish',
+				'publish'
+			)
+		);
 		// Clear cache after direct database query.
 		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
 
-		// Remove recommendations older than 30 days for content-based.
-		$query2 = $wpdb->prepare(
-			"
-			DELETE FROM {$table_name}
-			WHERE engine = %s
-			AND updated_at < %s
-		",
-			'content',
-			gmdate( 'Y-m-d H:i:s', strtotime( '-30 days' ) )
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
+		$wpdb->query(
+			$wpdb->prepare(
+				"
+				DELETE FROM {$table_name}
+				WHERE engine = %s
+				AND updated_at < %s
+				",
+				'content',
+				gmdate( 'Y-m-d H:i:s', strtotime( '-30 days' ) )
+			)
 		);
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$wpdb->query( $query2 );
 		// Clear cache after direct database query.
 		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
 	}
@@ -179,6 +183,7 @@ class PREProduct_Recommendations_Data {
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$stats['total'] = $wpdb->get_var(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM {$table_name}"
 				)
@@ -186,12 +191,13 @@ class PREProduct_Recommendations_Data {
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$stats['content'] = $wpdb->get_var(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM {$table_name} WHERE engine = %s",
 					'content'
 				)
 			);
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
 			$stats['association'] = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM {$table_name} WHERE engine = %s",

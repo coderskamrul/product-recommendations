@@ -101,13 +101,13 @@ class PREProduct_Recommendations_Engine {
 		if ( ! $product ) {
 			return array();
 		}
-
 		$args = array(
 			'post_type'      => 'product',
-			'posts_per_page' => $limit * 3, // Get more to filter.
+			'posts_per_page' => $limit * 3,
 			'post_status'    => 'publish',
-			// Note: Using 'post__not_in' and 'meta_query' may impact performance. See https://wpvip.com/documentation/performance-improvements-by-removing-usage-of-post__not_in/
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Safe to exclude a single product by ID
 			'post__not_in'   => array( $product_id ),
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Needed to filter only in-stock products
 			'meta_query'     => array(
 				array(
 					'key'     => '_stock_status',
@@ -146,6 +146,7 @@ class PREProduct_Recommendations_Engine {
 		}
 
 		if ( count( $tax_query ) > 1 ) {
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Required to match related categories/tags
 			$args['tax_query'] = $tax_query;
 		}
 
@@ -153,21 +154,25 @@ class PREProduct_Recommendations_Engine {
 		$sort_by = isset( $content_settings['sort_by'] ) ? $content_settings['sort_by'] : 'popularity';
 		switch ( $sort_by ) {
 			case 'popularity':
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by meta_key is expected
 				$args['meta_key'] = 'total_sales';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
 				break;
 			case 'rating':
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by rating (meta_key)
 				$args['meta_key'] = '_wc_average_rating';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
 				break;
 			case 'price_low':
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by price (meta_key)
 				$args['meta_key'] = '_price';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'ASC';
 				break;
 			case 'price_high':
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by price (meta_key)
 				$args['meta_key'] = '_price';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
@@ -177,7 +182,6 @@ class PREProduct_Recommendations_Engine {
 				$args['order']   = 'DESC';
 				break;
 		}
-
 		$query           = new WP_Query( $args );
 		$recommendations = array();
 
@@ -205,21 +209,22 @@ class PREProduct_Recommendations_Engine {
 
 		$product_ids = wp_cache_get( $cache_key, $cache_group );
 		if ( false === $product_ids ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$sql = $wpdb->prepare(
-				"SELECT recommended_product_id, score 
-				FROM {$table_name}
-				WHERE product_id = %d 
-				AND engine = %s 
-				ORDER BY score DESC 
-				LIMIT %d",
-				$product_id,
-				'association',
-				$limit
-			);
+			$table_name_escaped = esc_sql( $table_name );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is manually escaped
+			$sql                = "
+				SELECT recommended_product_id, score
+				FROM {$table_name_escaped}
+				WHERE product_id = %d
+				AND engine = %s
+				ORDER BY score DESC
+				LIMIT %d
+			";
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$recommendations = $wpdb->get_results( $sql );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is manually escaped and safe
+			$sql = $wpdb->prepare( $sql, $product_id, 'association', $limit );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$recommendations = $wpdb->get_results( $sql, OBJECT );
 
 			$product_ids = array();
 			foreach ( $recommendations as $rec ) {

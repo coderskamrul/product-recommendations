@@ -78,6 +78,7 @@ class PROREEN_Product_Recommendations_Ajax {
 
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is whitelisted and safe
 		$wpdb->query( "TRUNCATE TABLE $table_name" );
 
 		wp_send_json_success( __( 'All recommendation data cleared.', 'product-recommendations' ) );
