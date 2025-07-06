@@ -90,11 +90,11 @@ class PROREEN_Product_Recommendations {
 	 * Include required files
 	 */
 	private function includes() {
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-admin.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-engine.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-display.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-ajax.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-data.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-admin.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-engine.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-display.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-ajax.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-data.php';
 	}
 
 	/**
