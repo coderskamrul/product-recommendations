@@ -209,23 +209,27 @@ class PREProduct_Recommendations_Engine {
 
 		$product_ids = wp_cache_get( $cache_key, $cache_group );
 		if ( false === $product_ids ) {
+			// Escape the table name (since it cannot be used as a placeholder).
 			$table_name_escaped = esc_sql( $table_name );
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is manually escaped
-			$sql                = "
-				SELECT recommended_product_id, score
-				FROM {$table_name_escaped}
-				WHERE product_id = %d
-				AND engine = %s
-				ORDER BY score DESC
-				LIMIT %d
-			";
 
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is manually escaped and safe
-			$sql = $wpdb->prepare( $sql, $product_id, 'association', $limit );
-
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$recommendations = $wpdb->get_results( $sql, OBJECT );
-
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$recommendations = $wpdb->get_results(
+				$wpdb->prepare(
+					"
+					SELECT recommended_product_id, score
+					FROM {$table_name_escaped}
+					WHERE product_id = %d
+					AND engine = %s
+					ORDER BY score DESC
+					LIMIT %d
+					",
+					$product_id,
+					'association',
+					$limit
+				),
+				OBJECT
+			);
+			// phpcs:enable
 			$product_ids = array();
 			foreach ( $recommendations as $rec ) {
 				$product_ids[] = $rec->recommended_product_id;

@@ -354,9 +354,18 @@ class PROREEN_Product_Recommendations_Admin {
 		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
 		$cache_key  = 'proreen_product_recommendations_count';
 		$count      = wp_cache_get( $cache_key, 'product_recommendations' );
+
 		if ( false === $count ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared -- Custom table, no core API available.
-			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table_name} WHERE 1 = %d", 1 ) );
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// Reason: Table name is dynamically constructed from $wpdb->prefix and is safe. Table names cannot be parameterized.
+			$count = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(*) FROM {$table_name} WHERE 1 = %d",
+					1
+				)
+			);
+			// phpcs:enable
+
 			wp_cache_set( $cache_key, $count, 'product_recommendations', 300 );
 		}
 		?>
@@ -437,6 +446,21 @@ class PROREEN_Product_Recommendations_Admin {
 	 * Save product recommendation fields
 	 */
 	public function save_product_recommendations_fields( $post_id ) {
+		// Check if nonce is valid.
+		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
+			return;
+		}
+
+		// Check if user has permission to edit the post.
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		// Check if this is an autosave.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
 		$custom_recommendations   = isset( $_POST['custom_recommendations'] ) ? array_map( 'intval', $_POST['custom_recommendations'] ) : array();
 		$excluded_recommendations = isset( $_POST['excluded_recommendations'] ) ? array_map( 'intval', $_POST['excluded_recommendations'] ) : array();
 

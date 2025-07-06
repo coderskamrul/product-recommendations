@@ -131,7 +131,9 @@ class PREProduct_Recommendations_Data {
 
 		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Direct query necessary; table name cannot be parameterized
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// Table names cannot be parameterized, and are safely constructed using $wpdb->prefix.
+
 		$wpdb->query(
 			$wpdb->prepare(
 				"
@@ -146,10 +148,9 @@ class PREProduct_Recommendations_Data {
 				'publish'
 			)
 		);
-		// Clear cache after direct database query.
+
 		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
 		$wpdb->query(
 			$wpdb->prepare(
 				"
@@ -161,9 +162,12 @@ class PREProduct_Recommendations_Data {
 				gmdate( 'Y-m-d H:i:s', strtotime( '-30 days' ) )
 			)
 		);
-		// Clear cache after direct database query.
+
 		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
+
+		// phpcs:enable
 	}
+
 
 	/**
 	 * Get recommendation statistics
@@ -173,37 +177,38 @@ class PREProduct_Recommendations_Data {
 
 		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
 
-		$stats = array();
-
+		$stats     = array();
 		$cache_key = 'proreen_product_recommendations_stats';
-		$stats     = wp_cache_get( $cache_key, 'proreen_product_recommendations' );
+
+		$stats = wp_cache_get( $cache_key, 'proreen_product_recommendations' );
 
 		if ( false === $stats ) {
 			$stats = array();
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// Reason: Table name is generated from $wpdb->prefix and cannot be parameterized in prepare()
+
 			$stats['total'] = $wpdb->get_var(
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM {$table_name}"
 				)
 			);
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$stats['content'] = $wpdb->get_var(
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM {$table_name} WHERE engine = %s",
 					'content'
 				)
 			);
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
+
 			$stats['association'] = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT COUNT(*) FROM {$table_name} WHERE engine = %s",
 					'association'
 				)
 			);
+
+			// phpcs:enable
 
 			$stats['last_build'] = get_option( 'proreen_product_recommendations_last_build', 0 );
 
