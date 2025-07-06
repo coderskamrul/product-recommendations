@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PRE_Product_Recommendations_Display {
+class PROREEN_Product_Recommendations_Display {
 
 	public function __construct() {
 		add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'display_product_recommendations' ), 25 );

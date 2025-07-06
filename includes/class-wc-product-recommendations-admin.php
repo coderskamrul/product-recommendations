@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PRE_Product_Recommendations_Admin {
+class PROREEN_Product_Recommendations_Admin {
 
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );

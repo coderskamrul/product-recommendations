@@ -1,8 +1,8 @@
-# Copyright (C) 2025 Product Recommendations Engine
-# This file is distributed under the same license as the Product Recommendations Engine package.
+# Copyright (C) 2025 Product Recommendations For WooCommerce
+# This file is distributed under the same license as the Product Recommendations For WooCommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Product Recommendations Engine 1.0.0\n"
+"Project-Id-Version: Product Recommendations For WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-recommendations\n"
 "POT-Creation-Date: 2025-06-17 05:50:24+00:00\n"
 "MIME-Version: 1.0\n"
@@ -302,7 +302,7 @@ msgstr ""
 msgid "%s requires WooCommerce to be installed and active."
 msgstr ""
 #. Plugin Name of the plugin/theme
-msgid "Product Recommendations Engine"
+msgid "Product Recommendations For WooCommerce"
 msgstr ""
 
 #. Description of the plugin/theme

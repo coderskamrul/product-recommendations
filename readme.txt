@@ -1,4 +1,4 @@
-=== Product Recommendations Engine ===
+=== Product Recommendations For WooCommerce ===
 Contributors: hasandev
 Tags: personalized products, product recommendations, upsell, cross-sell, frequently bought together
 Requires at least: 5.0    
@@ -12,7 +12,7 @@ Local, data-driven product recommendations for WooCommerce with multiple engines
 
 == Description ==
 
-Product Recommendations Engine provides intelligent product suggestions based on your store's data. The plugin analyzes customer behavior and purchase patterns to recommend relevant products, helping increase sales and improve customer experience.
+Product Recommendations For WooCommerce provides intelligent product suggestions based on your store's data. The plugin analyzes customer behavior and purchase patterns to recommend relevant products, helping increase sales and improve customer experience.
 
 **Key Features:**
 
@@ -96,7 +96,7 @@ No, the plugin is designed for performance. Recommendations are pre-calculated a
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of Product Recommendations Engine plugin.
+Initial release of Product Recommendations For WooCommerce plugin.
 
 == Technical Details ==
 

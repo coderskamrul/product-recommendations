@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Product Recommendations Engine
+ * Plugin Name: Product Recommendations For WooCommerce
  * Description: Local, data-driven product recommendations for WooCommerce with multiple engines and comprehensive admin controls.
  * Version: 1.0.0
  * Author: hmdkamrul
@@ -14,7 +14,7 @@
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * @package          Product Recommendations Engine
+ * @package          Product Recommendations For WooCommerce
  */
 
 // Prevent direct access
@@ -23,16 +23,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants
-define( 'PRE_PRODUCT_RECOMMENDATIONS_VERSION', '1.0.0' );
-define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_FILE', __FILE__ );
-define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PROREEN_PRODUCT_RECOMMENDATIONS_VERSION', '1.0.0' );
+define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_FILE', __FILE__ );
+define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Main plugin class
  */
-class PRE_Product_Recommendations {
+class PROREEN_Product_Recommendations {
 
 	/**
 	 * Single instance of the class
@@ -90,11 +90,11 @@ class PRE_Product_Recommendations {
 	 * Include required files
 	 */
 	private function includes() {
-		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-admin.php';
-		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-engine.php';
-		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-display.php';
-		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-ajax.php';
-		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-data.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-admin.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-engine.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-display.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-ajax.php';
+		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-data.php';
 	}
 
 	/**
@@ -102,9 +102,9 @@ class PRE_Product_Recommendations {
 	 */
 	private function init_hooks() {
 		// Initialize classes
-		new PRE_Product_Recommendations_Admin();
-		new PRE_Product_Recommendations_Display();
-		new PRE_Product_Recommendations_Ajax();
+		new PROREEN_Product_Recommendations_Admin();
+		new PROREEN_Product_Recommendations_Display();
+		new PROREEN_Product_Recommendations_Ajax();
 
 		// Load text domain
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
@@ -217,9 +217,9 @@ class PRE_Product_Recommendations {
 		if ( is_product() || is_cart() || is_checkout() ) {
 			wp_enqueue_script(
 				'product-recommendations',
-				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
+				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
 				array( 'jquery', 'wc-cart-fragments' ),
-				PRE_PRODUCT_RECOMMENDATIONS_VERSION,
+				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION,
 				true
 			);
 
@@ -234,9 +234,9 @@ class PRE_Product_Recommendations {
 
 			wp_enqueue_style(
 				'product-recommendations',
-				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
+				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
 				array(),
-				PRE_PRODUCT_RECOMMENDATIONS_VERSION
+				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION
 			);
 		}
 	}
@@ -248,17 +248,17 @@ class PRE_Product_Recommendations {
 		if ( strpos( $hook, 'product-recommendations' ) !== false ) {
 			wp_enqueue_script(
 				'wc-product-recommendations-admin',
-				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
+				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
 				array( 'jquery' ),
-				PRE_PRODUCT_RECOMMENDATIONS_VERSION,
+				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION,
 				true
 			);
 
 			wp_enqueue_style(
 				'wc-product-recommendations-admin',
-				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
+				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
 				array(),
-				PRE_PRODUCT_RECOMMENDATIONS_VERSION
+				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION
 			);
 		}
 	}
@@ -268,7 +268,7 @@ class PRE_Product_Recommendations {
 	 */
 	public function woocommerce_missing_notice() {
 		// translators: %s: Plugin name.
-		echo '<div class="error"><p><strong>' . sprintf( esc_html__( '%s requires WooCommerce to be installed and active.', 'product-recommendations' ), 'Product Recommendations Engine' ) . '</strong></p></div>';
+		echo '<div class="error"><p><strong>' . sprintf( esc_html__( '%s requires WooCommerce to be installed and active.', 'product-recommendations' ), 'Product Recommendations For WooCommerce' ) . '</strong></p></div>';
 	}
 
 	/**
@@ -293,12 +293,12 @@ class PRE_Product_Recommendations {
 }
 
 // Initialize the plugin.
-function PRE_Product_Recommendations() {
-	return PRE_Product_Recommendations::instance();
+function PROREEN_Product_Recommendations() {
+	return PROREEN_Product_Recommendations::instance();
 }
 
 // Global for backwards compatibility.
-$GLOBALS['proreen_product_recommendations'] = PRE_Product_Recommendations();
+$GLOBALS['proreen_product_recommendations'] = PROREEN_Product_Recommendations();
 
 // Schedule data building.
 add_action( 'proreen_product_recommendations_build_data', array( 'PREProduct_Recommendations_Data', 'build_recommendation_data' ) );

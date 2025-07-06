@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PRE_Product_Recommendations_Ajax {
+class PROREEN_Product_Recommendations_Ajax {
 
 	public function __construct() {
 		add_action( 'wp_ajax_wc_refresh_cart_recommendations', array( $this, 'refresh_cart_recommendations' ) );
@@ -37,7 +37,7 @@ class PRE_Product_Recommendations_Ajax {
 
 		ob_start();
 
-		$display    = new PRE_Product_Recommendations_Display();
+		$display    = new PROREEN_Product_Recommendations_Display();
 		$reflection = new ReflectionClass( $display );
 		$method     = $reflection->getMethod( 'render_recommendations' );
 		$method->setAccessible( true );
@@ -104,7 +104,7 @@ class PRE_Product_Recommendations_Ajax {
 		ob_start();
 		echo '<div id="wc-product-recommendations-cart">';
 
-		$display    = new PRE_Product_Recommendations_Display();
+		$display    = new PROREEN_Product_Recommendations_Display();
 		$reflection = new ReflectionClass( $display );
 		$method     = $reflection->getMethod( 'render_recommendations' );
 		$method->setAccessible( true );
