@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Product_Recommendations_Ajax {
+class PRE_Product_Recommendations_Ajax {
 
 	public function __construct() {
 		add_action( 'wp_ajax_wc_refresh_cart_recommendations', array( $this, 'refresh_cart_recommendations' ) );
@@ -23,12 +23,12 @@ class WC_Product_Recommendations_Ajax {
 	 * Refresh cart recommendations via AJAX
 	 */
 	public function refresh_cart_recommendations() {
-		check_ajax_referer( 'wc_product_recommendations_nonce', 'nonce' );
+		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
 
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		$limit    = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
 
-		$recommendations = WC_Product_Recommendations_Engine::get_cart_recommendations( $limit );
+		$recommendations = PREProduct_Recommendations_Engine::get_cart_recommendations( $limit );
 
 		if ( empty( $recommendations ) ) {
 			wp_send_json_success( array( 'html' => '' ) );
@@ -37,7 +37,7 @@ class WC_Product_Recommendations_Ajax {
 
 		ob_start();
 
-		$display    = new WC_Product_Recommendations_Display();
+		$display    = new PRE_Product_Recommendations_Display();
 		$reflection = new ReflectionClass( $display );
 		$method     = $reflection->getMethod( 'render_recommendations' );
 		$method->setAccessible( true );
@@ -52,7 +52,7 @@ class WC_Product_Recommendations_Ajax {
 	 * Rebuild recommendations data
 	 */
 	public function rebuild_recommendations() {
-		check_ajax_referer( 'wc_product_recommendations_nonce', 'nonce' );
+		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'product-recommendations' ) );
@@ -60,7 +60,7 @@ class WC_Product_Recommendations_Ajax {
 		}
 
 		// Schedule the rebuild
-		wp_schedule_single_event( time() + 10, 'wc_product_recommendations_build_data' );
+		wp_schedule_single_event( time() + 10, 'proreen_product_recommendations_build_data' );
 
 		wp_send_json_success( __( 'Recommendation data rebuild scheduled. This may take a few minutes.', 'product-recommendations' ) );
 	}
@@ -69,7 +69,7 @@ class WC_Product_Recommendations_Ajax {
 	 * Clear recommendations data
 	 */
 	public function clear_recommendations() {
-		check_ajax_referer( 'wc_product_recommendations_nonce', 'nonce' );
+		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'product-recommendations' ) );
@@ -77,7 +77,7 @@ class WC_Product_Recommendations_Ajax {
 		}
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'wc_product_recommendations';
+		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
 		$wpdb->query( "TRUNCATE TABLE $table_name" );
 
 		wp_send_json_success( __( 'All recommendation data cleared.', 'product-recommendations' ) );
@@ -87,14 +87,14 @@ class WC_Product_Recommendations_Ajax {
 	 * Add cart recommendations to WooCommerce fragments
 	 */
 	public function add_cart_recommendations_fragment( $fragments ) {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['show_on_cart'] ) || $settings['show_on_cart'] !== 'yes' ) {
 			return $fragments;
 		}
 
 		$limit           = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
-		$recommendations = WC_Product_Recommendations_Engine::get_cart_recommendations( $limit );
+		$recommendations = PREProduct_Recommendations_Engine::get_cart_recommendations( $limit );
 
 		if ( empty( $recommendations ) ) {
 			$fragments['#wc-product-recommendations-cart'] = '<div id="wc-product-recommendations-cart"></div>';
@@ -104,7 +104,7 @@ class WC_Product_Recommendations_Ajax {
 		ob_start();
 		echo '<div id="wc-product-recommendations-cart">';
 
-		$display    = new WC_Product_Recommendations_Display();
+		$display    = new PRE_Product_Recommendations_Display();
 		$reflection = new ReflectionClass( $display );
 		$method     = $reflection->getMethod( 'render_recommendations' );
 		$method->setAccessible( true );

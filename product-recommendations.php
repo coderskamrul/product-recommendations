@@ -23,16 +23,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants
-define( 'WC_PRODUCT_RECOMMENDATIONS_VERSION', '1.0.0' );
-define( 'WC_PRODUCT_RECOMMENDATIONS_PLUGIN_FILE', __FILE__ );
-define( 'WC_PRODUCT_RECOMMENDATIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'WC_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'WC_PRODUCT_RECOMMENDATIONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PRE_PRODUCT_RECOMMENDATIONS_VERSION', '1.0.0' );
+define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_FILE', __FILE__ );
+define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Main plugin class
  */
-class WC_Product_Recommendations {
+class PRE_Product_Recommendations {
 
 	/**
 	 * Single instance of the class
@@ -90,11 +90,11 @@ class WC_Product_Recommendations {
 	 * Include required files
 	 */
 	private function includes() {
-		include_once WC_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-admin.php';
-		include_once WC_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-engine.php';
-		include_once WC_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-display.php';
-		include_once WC_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-ajax.php';
-		include_once WC_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-data.php';
+		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-admin.php';
+		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-engine.php';
+		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-display.php';
+		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-ajax.php';
+		include_once PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-wc-product-recommendations-data.php';
 	}
 
 	/**
@@ -102,9 +102,9 @@ class WC_Product_Recommendations {
 	 */
 	private function init_hooks() {
 		// Initialize classes
-		new WC_Product_Recommendations_Admin();
-		new WC_Product_Recommendations_Display();
-		new WC_Product_Recommendations_Ajax();
+		new PRE_Product_Recommendations_Admin();
+		new PRE_Product_Recommendations_Display();
+		new PRE_Product_Recommendations_Ajax();
 
 		// Load text domain
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
@@ -125,7 +125,7 @@ class WC_Product_Recommendations {
 		$this->set_default_options();
 
 		// Build initial recommendation data
-		wp_schedule_single_event( time() + 60, 'wc_product_recommendations_build_data' );
+		wp_schedule_single_event( time() + 60, 'proreen_product_recommendations_build_data' );
 	}
 
 	/**
@@ -133,8 +133,8 @@ class WC_Product_Recommendations {
 	 */
 	public function deactivate() {
 		// Clear scheduled events
-		wp_clear_scheduled_hook( 'wc_product_recommendations_build_data' );
-		wp_clear_scheduled_hook( 'wc_product_recommendations_update_data' );
+		wp_clear_scheduled_hook( 'proreen_product_recommendations_build_data' );
+		wp_clear_scheduled_hook( 'proreen_product_recommendations_update_data' );
 	}
 
 	/**
@@ -146,7 +146,7 @@ class WC_Product_Recommendations {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		// Table for storing product associations
-		$table_name = $wpdb->prefix . 'wc_product_recommendations';
+		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
 
 		$sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -200,7 +200,7 @@ class WC_Product_Recommendations {
 			),
 		);
 
-		add_option( 'wc_product_recommendations_settings', $defaults );
+		add_option( 'proreen_product_recommendations_settings', $defaults );
 	}
 
 	/**
@@ -217,26 +217,26 @@ class WC_Product_Recommendations {
 		if ( is_product() || is_cart() || is_checkout() ) {
 			wp_enqueue_script(
 				'product-recommendations',
-				WC_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
+				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
 				array( 'jquery', 'wc-cart-fragments' ),
-				WC_PRODUCT_RECOMMENDATIONS_VERSION,
+				PRE_PRODUCT_RECOMMENDATIONS_VERSION,
 				true
 			);
 
 			wp_localize_script(
 				'product-recommendations',
-				'wc_product_recommendations',
+				'proreen_product_recommendations',
 				array(
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
-					'nonce'    => wp_create_nonce( 'wc_product_recommendations_nonce' ),
+					'nonce'    => wp_create_nonce( 'proreen_product_recommendations_nonce' ),
 				)
 			);
 
 			wp_enqueue_style(
 				'product-recommendations',
-				WC_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
+				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
 				array(),
-				WC_PRODUCT_RECOMMENDATIONS_VERSION
+				PRE_PRODUCT_RECOMMENDATIONS_VERSION
 			);
 		}
 	}
@@ -248,17 +248,17 @@ class WC_Product_Recommendations {
 		if ( strpos( $hook, 'product-recommendations' ) !== false ) {
 			wp_enqueue_script(
 				'wc-product-recommendations-admin',
-				WC_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
+				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
 				array( 'jquery' ),
-				WC_PRODUCT_RECOMMENDATIONS_VERSION,
+				PRE_PRODUCT_RECOMMENDATIONS_VERSION,
 				true
 			);
 
 			wp_enqueue_style(
 				'wc-product-recommendations-admin',
-				WC_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
+				PRE_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
 				array(),
-				WC_PRODUCT_RECOMMENDATIONS_VERSION
+				PRE_PRODUCT_RECOMMENDATIONS_VERSION
 			);
 		}
 	}
@@ -276,8 +276,8 @@ class WC_Product_Recommendations {
 	 */
 	public function plugins_loaded() {
 		// Schedule data updates
-		if ( ! wp_next_scheduled( 'wc_product_recommendations_update_data' ) ) {
-			wp_schedule_event( time(), 'daily', 'wc_product_recommendations_update_data' );
+		if ( ! wp_next_scheduled( 'proreen_product_recommendations_update_data' ) ) {
+			wp_schedule_event( time(), 'daily', 'proreen_product_recommendations_update_data' );
 		}
 
 		// Hook into order completion to update data
@@ -288,18 +288,18 @@ class WC_Product_Recommendations {
 	 * Update recommendation data when order is completed
 	 */
 	public function update_data_on_order( $order_id ) {
-		wp_schedule_single_event( time() + 300, 'wc_product_recommendations_build_data' );
+		wp_schedule_single_event( time() + 300, 'proreen_product_recommendations_build_data' );
 	}
 }
 
 // Initialize the plugin.
-function WC_Product_Recommendations() {
-	return WC_Product_Recommendations::instance();
+function PRE_Product_Recommendations() {
+	return PRE_Product_Recommendations::instance();
 }
 
 // Global for backwards compatibility.
-$GLOBALS['wc_product_recommendations'] = WC_Product_Recommendations();
+$GLOBALS['proreen_product_recommendations'] = PRE_Product_Recommendations();
 
 // Schedule data building.
-add_action( 'wc_product_recommendations_build_data', array( 'WC_Product_Recommendations_Data', 'build_recommendation_data' ) );
-add_action( 'wc_product_recommendations_update_data', array( 'WC_Product_Recommendations_Data', 'build_recommendation_data' ) );
+add_action( 'proreen_product_recommendations_build_data', array( 'PREProduct_Recommendations_Data', 'build_recommendation_data' ) );
+add_action( 'proreen_product_recommendations_update_data', array( 'PREProduct_Recommendations_Data', 'build_recommendation_data' ) );

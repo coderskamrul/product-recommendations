@@ -7,13 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Product_Recommendations_Engine {
+class PREProduct_Recommendations_Engine {
 
 	/**
 	 * Get recommendations for a product
 	 */
 	public static function get_recommendations( $product_id, $context = 'product', $limit = 4 ) {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['enabled'] ) || $settings['enabled'] !== 'yes' ) {
 			return array();
@@ -70,7 +70,7 @@ class WC_Product_Recommendations_Engine {
 			$cart_product_ids[] = $cart_item['product_id'];
 		}
 
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		$engine   = isset( $settings['active_engine'] ) ? $settings['active_engine'] : 'content';
 
 		$all_recommendations = array();
@@ -94,7 +94,7 @@ class WC_Product_Recommendations_Engine {
 	 * Content-based recommendations
 	 */
 	private static function get_content_based_recommendations( $product_id, $limit ) {
-		$settings         = get_option( 'wc_product_recommendations_settings', array() );
+		$settings         = get_option( 'proreen_product_recommendations_settings', array() );
 		$content_settings = isset( $settings['content_engine'] ) ? $settings['content_engine'] : array();
 
 		$product = wc_get_product( $product_id );
@@ -199,9 +199,9 @@ class WC_Product_Recommendations_Engine {
 	private static function get_association_based_recommendations( $product_id, $limit ) {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'wc_product_recommendations';
-		$cache_key  = 'assoc_recs_' . $product_id . '_' . $limit;
-		$cache_group = 'wc_product_recommendations';
+		$table_name  = $wpdb->prefix . 'proreen_product_recommendations';
+		$cache_key   = 'assoc_recs_' . $product_id . '_' . $limit;
+		$cache_group = 'proreen_product_recommendations';
 
 		$product_ids = wp_cache_get( $cache_key, $cache_group );
 		if ( false === $product_ids ) {

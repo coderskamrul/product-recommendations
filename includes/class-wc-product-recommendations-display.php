@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Product_Recommendations_Display {
+class PRE_Product_Recommendations_Display {
 
 	public function __construct() {
 		add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'display_product_recommendations' ), 25 );
@@ -15,14 +15,14 @@ class WC_Product_Recommendations_Display {
 		add_action( 'woocommerce_review_order_after_submit', array( $this, 'display_checkout_recommendations' ) );
 
 		// Shortcode support
-		add_shortcode( 'wc_product_recommendations', array( $this, 'recommendations_shortcode' ) );
+		add_shortcode( 'proreen_product_recommendations', array( $this, 'recommendations_shortcode' ) );
 	}
 
 	/**
 	 * Display recommendations on single product page
 	 */
 	public function display_product_recommendations() {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['show_on_product'] ) || $settings['show_on_product'] !== 'yes' ) {
 			return;
@@ -34,7 +34,7 @@ class WC_Product_Recommendations_Display {
 		}
 
 		$limit           = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
-		$recommendations = WC_Product_Recommendations_Engine::get_recommendations( $product->get_id(), 'product', $limit );
+		$recommendations = PREProduct_Recommendations_Engine::get_recommendations( $product->get_id(), 'product', $limit );
 
 		if ( empty( $recommendations ) ) {
 			return;
@@ -47,14 +47,14 @@ class WC_Product_Recommendations_Display {
 	 * Display recommendations on cart page
 	 */
 	public function display_cart_recommendations() {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['show_on_cart'] ) || $settings['show_on_cart'] !== 'yes' ) {
 			return;
 		}
 
 		$limit           = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
-		$recommendations = WC_Product_Recommendations_Engine::get_cart_recommendations( $limit );
+		$recommendations = PREProduct_Recommendations_Engine::get_cart_recommendations( $limit );
 
 		if ( empty( $recommendations ) ) {
 			return;
@@ -69,14 +69,14 @@ class WC_Product_Recommendations_Display {
 	 * Display recommendations on checkout page
 	 */
 	public function display_checkout_recommendations() {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['show_on_checkout'] ) || $settings['show_on_checkout'] !== 'yes' ) {
 			return;
 		}
 
 		$limit           = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
-		$recommendations = WC_Product_Recommendations_Engine::get_cart_recommendations( $limit );
+		$recommendations = PREProduct_Recommendations_Engine::get_cart_recommendations( $limit );
 
 		if ( empty( $recommendations ) ) {
 			return;
@@ -95,7 +95,7 @@ class WC_Product_Recommendations_Display {
 			return;
 		}
 
-		$settings         = get_option( 'wc_product_recommendations_settings', array() );
+		$settings         = get_option( 'proreen_product_recommendations_settings', array() );
 		$display_settings = isset( $settings['display_settings'] ) ? $settings['display_settings'] : array();
 
 		$title            = isset( $display_settings['title'] ) ? $display_settings['title'] : __( 'You might also like', 'product-recommendations' );
@@ -188,7 +188,7 @@ class WC_Product_Recommendations_Display {
 			return '';
 		}
 
-		$recommendations = WC_Product_Recommendations_Engine::get_recommendations( $product_id, $atts['context'], intval( $atts['limit'] ) );
+		$recommendations = PREProduct_Recommendations_Engine::get_recommendations( $product_id, $atts['context'], intval( $atts['limit'] ) );
 
 		if ( empty( $recommendations ) ) {
 			return '';
@@ -197,7 +197,7 @@ class WC_Product_Recommendations_Display {
 		ob_start();
 
 		// Temporarily override display settings for shortcode
-		$original_settings = get_option( 'wc_product_recommendations_settings', array() );
+		$original_settings = get_option( 'proreen_product_recommendations_settings', array() );
 		$temp_settings     = $original_settings;
 
 		if ( ! empty( $atts['title'] ) ) {
@@ -205,12 +205,12 @@ class WC_Product_Recommendations_Display {
 		}
 		$temp_settings['display_settings']['columns'] = intval( $atts['columns'] );
 
-		update_option( 'wc_product_recommendations_settings', $temp_settings );
+		update_option( 'proreen_product_recommendations_settings', $temp_settings );
 
 		$this->render_recommendations( $recommendations, $atts['context'] );
 
 		// Restore original settings
-		update_option( 'wc_product_recommendations_settings', $original_settings );
+		update_option( 'proreen_product_recommendations_settings', $original_settings );
 
 		return ob_get_clean();
 	}

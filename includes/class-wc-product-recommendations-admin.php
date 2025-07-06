@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WC_Product_Recommendations_Admin {
+class PRE_Product_Recommendations_Admin {
 
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
@@ -73,10 +73,11 @@ class WC_Product_Recommendations_Admin {
 		// Display settings
 		if ( isset( $settings['display_settings'] ) && is_array( $settings['display_settings'] ) ) {
 			$sanitized['display_settings'] = array(
-				'title'       => sanitize_text_field( $settings['display_settings']['title'] ?? '' ),
-				'columns'     => absint( $settings['display_settings']['columns'] ?? 4 ),
-				'show_price'  => $settings['display_settings']['show_price'] === 'yes' ? 'yes' : 'no',
-				'show_rating' => $settings['display_settings']['show_rating'] === 'yes' ? 'yes' : 'no',
+				'title'            => sanitize_text_field( $settings['display_settings']['title'] ?? '' ),
+				'columns'          => absint( $settings['display_settings']['columns'] ?? 4 ),
+				'show_price'       => $settings['display_settings']['show_price'] === 'yes' ? 'yes' : 'no',
+				'show_rating'      => $settings['display_settings']['show_rating'] === 'yes' ? 'yes' : 'no',
+				'show_add_to_cart' => $settings['display_settings']['show_add_to_cart'] === 'yes' ? 'yes' : 'no',
 			);
 		}
 
@@ -88,34 +89,34 @@ class WC_Product_Recommendations_Admin {
 	 */
 	public function admin_init() {
 		register_setting(
-			'wc_product_recommendations_settings',
-			'wc_product_recommendations_settings',
+			'proreen_product_recommendations_settings',
+			'proreen_product_recommendations_settings',
 			array(
 				'sanitize_callback' => array( $this, 'sanitize_settings' ),
 			)
 		);
 		// General Settings Section.
 		add_settings_section(
-			'wc_product_recommendations_general',
+			'proreen_product_recommendations_general',
 			__( 'Setting Configuration', 'product-recommendations' ),
 			array( $this, 'general_section_callback' ),
-			'wc_product_recommendations_settings'
+			'proreen_product_recommendations_settings'
 		);
 
 		// Engine Settings Section.
 		add_settings_section(
-			'wc_product_recommendations_engines',
+			'proreen_product_recommendations_engines',
 			__( 'Recommendation Engines', 'product-recommendations' ),
 			array( $this, 'engines_section_callback' ),
-			'wc_product_recommendations_settings'
+			'proreen_product_recommendations_settings'
 		);
 
 		// Display Settings Section.
 		add_settings_section(
-			'wc_product_recommendations_display',
+			'proreen_product_recommendations_display',
 			__( 'Display Settings', 'product-recommendations' ),
 			array( $this, 'display_section_callback' ),
-			'wc_product_recommendations_settings'
+			'proreen_product_recommendations_settings'
 		);
 
 		$this->add_settings_fields();
@@ -130,8 +131,8 @@ class WC_Product_Recommendations_Admin {
 			'enabled',
 			__( 'Enable Recommendations', 'product-recommendations' ),
 			array( $this, 'checkbox_field' ),
-			'wc_product_recommendations_settings',
-			'wc_product_recommendations_general',
+			'proreen_product_recommendations_settings',
+			'proreen_product_recommendations_general',
 			array(
 				'field'       => 'enabled',
 				'description' => __( 'Enable product recommendations globally', 'product-recommendations' ),
@@ -142,8 +143,8 @@ class WC_Product_Recommendations_Admin {
 			'active_engine',
 			__( 'Active Engine', 'product-recommendations' ),
 			array( $this, 'select_field' ),
-			'wc_product_recommendations_settings',
-			'wc_product_recommendations_general',
+			'proreen_product_recommendations_settings',
+			'proreen_product_recommendations_general',
 			array(
 				'field'       => 'active_engine',
 				'options'     => array(
@@ -159,8 +160,8 @@ class WC_Product_Recommendations_Admin {
 			'show_locations',
 			__( 'Display Locations', 'product-recommendations' ),
 			array( $this, 'checkbox_group_field' ),
-			'wc_product_recommendations_settings',
-			'wc_product_recommendations_general',
+			'proreen_product_recommendations_settings',
+			'proreen_product_recommendations_general',
 			array(
 				'fields' => array(
 					'show_on_product'  => __( 'Single Product Page', 'product-recommendations' ),
@@ -174,8 +175,8 @@ class WC_Product_Recommendations_Admin {
 			'max_recommendations',
 			__( 'Maximum Recommendations', 'product-recommendations' ),
 			array( $this, 'number_field' ),
-			'wc_product_recommendations_settings',
-			'wc_product_recommendations_general',
+			'proreen_product_recommendations_settings',
+			'proreen_product_recommendations_general',
 			array(
 				'field'       => 'max_recommendations',
 				'min'         => 1,
@@ -202,11 +203,11 @@ class WC_Product_Recommendations_Admin {
 				</div>
 				
 				<form method="post" action="options.php">
-					<?php settings_fields( 'wc_product_recommendations_settings' ); ?>
+					<?php settings_fields( 'proreen_product_recommendations_settings' ); ?>
 					
 					<div id="general" class="tab-content active">
 						<h2><?php esc_html_e( 'General Settings', 'product-recommendations' ); ?></h2>
-						<?php do_settings_sections( 'wc_product_recommendations_settings' ); ?>
+						<?php do_settings_sections( 'proreen_product_recommendations_settings' ); ?>
 					</div>
 					
 					<div id="engines" class="tab-content">
@@ -235,7 +236,7 @@ class WC_Product_Recommendations_Admin {
 	 * Render engine settings
 	 */
 	private function render_engine_settings() {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		?>
 		<table class="form-table">
 			<tr>
@@ -243,20 +244,20 @@ class WC_Product_Recommendations_Admin {
 				<td>
 					<fieldset>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[content_engine][match_categories]" value="yes" <?php checked( isset( $settings['content_engine']['match_categories'] ) ? $settings['content_engine']['match_categories'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_categories]" value="yes" <?php checked( isset( $settings['content_engine']['match_categories'] ) ? $settings['content_engine']['match_categories'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Match by Categories', 'product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[content_engine][match_tags]" value="yes" <?php checked( isset( $settings['content_engine']['match_tags'] ) ? $settings['content_engine']['match_tags'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_tags]" value="yes" <?php checked( isset( $settings['content_engine']['match_tags'] ) ? $settings['content_engine']['match_tags'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Match by Tags', 'product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[content_engine][match_attributes]" value="yes" <?php checked( isset( $settings['content_engine']['match_attributes'] ) ? $settings['content_engine']['match_attributes'] : 'no', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_attributes]" value="yes" <?php checked( isset( $settings['content_engine']['match_attributes'] ) ? $settings['content_engine']['match_attributes'] : 'no', 'yes' ); ?>>
 							<?php esc_html_e( 'Match by Attributes', 'product-recommendations' ); ?>
 						</label><br>
 						<label>
 							<?php esc_html_e( 'Sort by:', 'product-recommendations' ); ?>
-							<select name="wc_product_recommendations_settings[content_engine][sort_by]">
+							<select name="proreen_product_recommendations_settings[content_engine][sort_by]">
 								<option value="popularity" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'popularity' ); ?>><?php esc_html_e( 'Popularity', 'product-recommendations' ); ?></option>
 								<option value="rating" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'rating' ); ?>><?php esc_html_e( 'Rating', 'product-recommendations' ); ?></option>
 								<option value="price_low" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'price_low' ); ?>><?php esc_html_e( 'Price: Low to High', 'product-recommendations' ); ?></option>
@@ -273,18 +274,18 @@ class WC_Product_Recommendations_Admin {
 					<fieldset>
 						<label>
 							<?php esc_html_e( 'Minimum Support (co-purchases):', 'product-recommendations' ); ?>
-							<input type="number" name="wc_product_recommendations_settings[association_engine][min_support]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_support'] ) ? $settings['association_engine']['min_support'] : 2 ); ?>" min="1" max="100">
+							<input type="number" name="proreen_product_recommendations_settings[association_engine][min_support]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_support'] ) ? $settings['association_engine']['min_support'] : 2 ); ?>" min="1" max="100">
 						</label><br>
 						<label>
 							<?php esc_html_e( 'Days to look back:', 'product-recommendations' ); ?>
-							<input type="number" name="wc_product_recommendations_settings[association_engine][days_back]" value="<?php echo esc_attr( isset( $settings['association_engine']['days_back'] ) ? $settings['association_engine']['days_back'] : 365 ); ?>" min="30" max="3650">
+							<input type="number" name="proreen_product_recommendations_settings[association_engine][days_back]" value="<?php echo esc_attr( isset( $settings['association_engine']['days_back'] ) ? $settings['association_engine']['days_back'] : 365 ); ?>" min="30" max="3650">
 						</label><br>
 						<label>
 							<?php esc_html_e( 'Minimum Confidence:', 'product-recommendations' ); ?>
-							<input type="number" name="wc_product_recommendations_settings[association_engine][min_confidence]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_confidence'] ) ? $settings['association_engine']['min_confidence'] : 0.1 ); ?>" min="0.01" max="1" step="0.01">
+							<input type="number" name="proreen_product_recommendations_settings[association_engine][min_confidence]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_confidence'] ) ? $settings['association_engine']['min_confidence'] : 0.1 ); ?>" min="0.01" max="1" step="0.01">
 						</label><br>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[association_engine][use_views]" value="yes" <?php checked( isset( $settings['association_engine']['use_views'] ) ? $settings['association_engine']['use_views'] : 'no', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[association_engine][use_views]" value="yes" <?php checked( isset( $settings['association_engine']['use_views'] ) ? $settings['association_engine']['use_views'] : 'no', 'yes' ); ?>>
 							<?php esc_html_e( 'Include view history (requires tracking)', 'product-recommendations' ); ?>
 						</label>
 					</fieldset>
@@ -298,20 +299,20 @@ class WC_Product_Recommendations_Admin {
 	 * Render display settings
 	 */
 	private function render_display_settings() {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		?>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Section Title', 'product-recommendations' ); ?></th>
 				<td>
-					<input type="text" name="wc_product_recommendations_settings[display_settings][title]" value="<?php echo esc_attr( isset( $settings['display_settings']['title'] ) ? $settings['display_settings']['title'] : 'You might also like' ); ?>" class="regular-text">
+					<input type="text" name="proreen_product_recommendations_settings[display_settings][title]" value="<?php echo esc_attr( isset( $settings['display_settings']['title'] ) ? $settings['display_settings']['title'] : 'You might also like' ); ?>" class="regular-text">
 					<p class="description"><?php esc_html_e( 'Title displayed above recommendations', 'product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Columns', 'product-recommendations' ); ?></th>
 				<td>
-					<select name="wc_product_recommendations_settings[display_settings][columns]">
+					<select name="proreen_product_recommendations_settings[display_settings][columns]">
 						<option value="2" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 2 ); ?>>2</option>
 						<option value="3" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 3 ); ?>>3</option>
 						<option value="4" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 4 ); ?>>4</option>
@@ -326,15 +327,15 @@ class WC_Product_Recommendations_Admin {
 				<td>
 					<fieldset>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[display_settings][show_price]" value="yes" <?php checked( isset( $settings['display_settings']['show_price'] ) ? $settings['display_settings']['show_price'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_price]" value="yes" <?php checked( isset( $settings['display_settings']['show_price'] ) ? $settings['display_settings']['show_price'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Show Price', 'product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[display_settings][show_rating]" value="yes" <?php checked( isset( $settings['display_settings']['show_rating'] ) ? $settings['display_settings']['show_rating'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_rating]" value="yes" <?php checked( isset( $settings['display_settings']['show_rating'] ) ? $settings['display_settings']['show_rating'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Show Rating', 'product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="wc_product_recommendations_settings[display_settings][show_add_to_cart]" value="yes" <?php checked( isset( $settings['display_settings']['show_add_to_cart'] ) ? $settings['display_settings']['show_add_to_cart'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_add_to_cart]" value="yes" <?php checked( isset( $settings['display_settings']['show_add_to_cart'] ) ? $settings['display_settings']['show_add_to_cart'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Show Add to Cart Button', 'product-recommendations' ); ?>
 						</label>
 					</fieldset>
@@ -350,8 +351,8 @@ class WC_Product_Recommendations_Admin {
 	private function render_tools() {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'wc_product_recommendations';
-		$cache_key  = 'wc_product_recommendations_count';
+		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		$cache_key  = 'proreen_product_recommendations_count';
 		$count      = wp_cache_get( $cache_key, 'product_recommendations' );
 		if ( false === $count ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared -- Custom table, no core API available.
@@ -447,11 +448,11 @@ class WC_Product_Recommendations_Admin {
 	 * Field callbacks
 	 */
 	public function checkbox_field( $args ) {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		$value    = isset( $settings[ $args['field'] ] ) ? $settings[ $args['field'] ] : 'no';
 		?>
 		<label>
-			<input type="checkbox" name="wc_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
+			<input type="checkbox" name="proreen_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
 			<?php
 			if ( isset( $args['description'] ) ) {
 				echo esc_html( $args['description'] );}
@@ -461,10 +462,10 @@ class WC_Product_Recommendations_Admin {
 	}
 
 	public function select_field( $args ) {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		$value    = isset( $settings[ $args['field'] ] ) ? $settings[ $args['field'] ] : '';
 		?>
-		<select name="wc_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]">
+		<select name="proreen_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]">
 			<?php foreach ( $args['options'] as $key => $label ) : ?>
 				<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $value, $key ); ?>><?php echo esc_html( $label ); ?></option>
 			<?php endforeach; ?>
@@ -476,13 +477,13 @@ class WC_Product_Recommendations_Admin {
 	}
 
 	public function checkbox_group_field( $args ) {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		?>
 		<fieldset>
 			<?php foreach ( $args['fields'] as $field => $label ) : ?>
 				<?php $value = isset( $settings[ $field ] ) ? $settings[ $field ] : 'no'; ?>
 				<label>
-					<input type="checkbox" name="wc_product_recommendations_settings[<?php echo esc_attr( $field ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
+					<input type="checkbox" name="proreen_product_recommendations_settings[<?php echo esc_attr( $field ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
 					<?php echo esc_html( $label ); ?>
 				</label><br>
 			<?php endforeach; ?>
@@ -496,10 +497,10 @@ class WC_Product_Recommendations_Admin {
 	 * @param array $args Field arguments including field name, min, max, and description.
 	 */
 	public function number_field( $args ) {
-		$settings = get_option( 'wc_product_recommendations_settings', array() );
+		$settings = get_option( 'proreen_product_recommendations_settings', array() );
 		$value    = isset( $settings[ $args['field'] ] ) ? $settings[ $args['field'] ] : '';
 		?>
-		<input type="number" name="wc_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="<?php echo esc_attr( $value ); ?>" min="<?php echo esc_attr( $args['min'] ); ?>" max="<?php echo esc_attr( $args['max'] ); ?>">
+		<input type="number" name="proreen_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="<?php echo esc_attr( $value ); ?>" min="<?php echo esc_attr( $args['min'] ); ?>" max="<?php echo esc_attr( $args['max'] ); ?>">
 		<?php if ( isset( $args['description'] ) ) : ?>
 			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
 		<?php endif; ?>
