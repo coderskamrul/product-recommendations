@@ -106,9 +106,6 @@ class PROREEN_Product_Recommendations {
 		new PROREEN_Product_Recommendations_Display();
 		new PROREEN_Product_Recommendations_Ajax();
 
-		// Load text domain
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-
 		// Enqueue scripts and styles
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -201,13 +198,6 @@ class PROREEN_Product_Recommendations {
 		);
 
 		add_option( 'proreen_product_recommendations_settings', $defaults );
-	}
-
-	/**
-	 * Load text domain
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( 'smart-product-recommendations-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
