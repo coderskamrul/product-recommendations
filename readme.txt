@@ -1,4 +1,4 @@
-=== Smart Product Recommendations for WooCommerce ===
+=== UpSellSmart – Product Recommendations ===
 Contributors: hasandev
 Tags: personalized products, product recommendations, upsell, cross-sell, frequently bought together
 Requires at least: 5.0    
@@ -8,11 +8,11 @@ Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Local, data-driven Smart Product Recommendations for WooCommerce with multiple engines and comprehensive admin controls.
+Local, data-driven UpSellSmart – Product Recommendations with multiple engines and comprehensive admin controls.
 
 == Description ==
 
-Smart Product Recommendations for WooCommerce provides intelligent product suggestions based on your store's data. The plugin analyzes customer behavior and purchase patterns to recommend relevant products, helping increase sales and improve customer experience.
+UpSellSmart – Product Recommendations provides intelligent product suggestions based on your store's data. The plugin analyzes customer behavior and purchase patterns to recommend relevant products, helping increase sales and improve customer experience.
 
 **Key Features:**
 
@@ -96,7 +96,7 @@ No, the plugin is designed for performance. Recommendations are pre-calculated a
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of Smart Product Recommendations for WooCommerce plugin.
+Initial release of UpSellSmart – Product Recommendations plugin.
 
 == Technical Details ==
 
