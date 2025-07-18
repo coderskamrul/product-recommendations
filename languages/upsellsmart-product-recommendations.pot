@@ -1,10 +1,10 @@
-# Copyright (C) 2025 Smart Product Recommendations for WooCommerce
-# This file is distributed under the same license as the Smart Product Recommendations for WooCommerce package.
+# Copyright (C) 2025 UpSellSmart – Product Recommendations
+# This file is distributed under the same license as the UpSellSmart – Product Recommendations package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Product Recommendations for WooCommerce 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/smart-product-recommendations-for-woocommerce\n"
-"POT-Creation-Date: 2025-07-07 14:04:57+00:00\n"
+"Project-Id-Version: UpSellSmart – Product Recommendations 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/upsellsmart-product-recommendations\n"
+"POT-Creation-Date: 2025-07-18 09:51:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -298,15 +298,15 @@ msgstr ""
 
 #. translators: %s: Plugin name.
 
-#: smart-product-recommendations-for-woocommerce.php:271
+#: upsellsmart-product-recommendations.php:261
 msgid "%s requires WooCommerce to be installed and active."
 msgstr ""
 #. Plugin Name of the plugin/theme
-msgid "Smart Product Recommendations for WooCommerce"
+msgid "UpSellSmart – Product Recommendations"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Local, data-driven Smart Product Recommendations for WooCommerce with multiple engines and comprehensive admin controls."
+msgid "Local, data-driven UpSellSmart – Product Recommendations with multiple engines and comprehensive admin controls."
 msgstr ""
 
 #. Author of the plugin/theme
