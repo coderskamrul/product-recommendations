@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Smart Product Recommendations for WooCommerce
- * Description: Local, data-driven Smart Product Recommendations for WooCommerce with multiple engines and comprehensive admin controls.
+ * Plugin Name: UpSellSmart – Product Recommendations
+ * Description: Local, data-driven UpSellSmart – Product Recommendations with multiple engines and comprehensive admin controls.
  * Version: 1.0.0
  * Author: hmdkamrul
  * Author URI: https://profiles.wordpress.org/hasandev/
- * Text Domain: smart-product-recommendations-for-woocommerce
+ * Text Domain: upsellsmart-product-recommendations
  * Domain Path: /languages
  * Requires at least: 5.0
  * Tested up to: 6.4
@@ -14,7 +14,7 @@
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * @package          Smart Product Recommendations for WooCommerce
+ * @package          UpSellSmart – Product Recommendations
  */
 
 // Prevent direct access
@@ -206,7 +206,7 @@ class PROREEN_Product_Recommendations {
 	public function enqueue_scripts() {
 		if ( is_product() || is_cart() || is_checkout() ) {
 			wp_enqueue_script(
-				'smart-product-recommendations-for-woocommerce',
+				'upsellsmart-product-recommendations',
 				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
 				array( 'jquery', 'wc-cart-fragments' ),
 				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION,
@@ -214,7 +214,7 @@ class PROREEN_Product_Recommendations {
 			);
 
 			wp_localize_script(
-				'smart-product-recommendations-for-woocommerce',
+				'upsellsmart-product-recommendations',
 				'proreen_product_recommendations',
 				array(
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -223,7 +223,7 @@ class PROREEN_Product_Recommendations {
 			);
 
 			wp_enqueue_style(
-				'smart-product-recommendations-for-woocommerce',
+				'upsellsmart-product-recommendations',
 				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
 				array(),
 				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION
@@ -235,7 +235,7 @@ class PROREEN_Product_Recommendations {
 	 * Enqueue admin scripts and styles
 	 */
 	public function admin_enqueue_scripts( $hook ) {
-		if ( strpos( $hook, 'smart-product-recommendations-for-woocommerce' ) !== false ) {
+		if ( strpos( $hook, 'upsellsmart-product-recommendations' ) !== false ) {
 			wp_enqueue_script(
 				'proreen-product-recommendations-admin',
 				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
@@ -258,7 +258,7 @@ class PROREEN_Product_Recommendations {
 	 */
 	public function woocommerce_missing_notice() {
 		// translators: %s: Plugin name.
-		echo '<div class="error"><p><strong>' . sprintf( esc_html__( '%s requires WooCommerce to be installed and active.', 'smart-product-recommendations-for-woocommerce' ), 'Smart Product Recommendations for WooCommerce' ) . '</strong></p></div>';
+		echo '<div class="error"><p><strong>' . sprintf( esc_html__( '%s requires WooCommerce to be installed and active.', 'upsellsmart-product-recommendations' ), 'UpSellSmart – Product Recommendations' ) . '</strong></p></div>';
 	}
 
 	/**

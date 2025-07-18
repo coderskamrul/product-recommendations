@@ -98,7 +98,7 @@ class PROREEN_Product_Recommendations_Display {
 		$settings         = get_option( 'proreen_product_recommendations_settings', array() );
 		$display_settings = isset( $settings['display_settings'] ) ? $settings['display_settings'] : array();
 
-		$title            = isset( $display_settings['title'] ) ? $display_settings['title'] : __( 'You might also like', 'smart-product-recommendations-for-woocommerce' );
+		$title            = isset( $display_settings['title'] ) ? $display_settings['title'] : __( 'You might also like', 'upsellsmart-product-recommendations' );
 		$columns          = isset( $display_settings['columns'] ) ? intval( $display_settings['columns'] ) : 4;
 		$show_price       = isset( $display_settings['show_price'] ) && $display_settings['show_price'] === 'yes';
 		$show_rating      = isset( $display_settings['show_rating'] ) && $display_settings['show_rating'] === 'yes';

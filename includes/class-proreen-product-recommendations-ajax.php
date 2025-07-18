@@ -55,14 +55,14 @@ class PROREEN_Product_Recommendations_Ajax {
 		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_send_json_error( __( 'Insufficient permissions', 'smart-product-recommendations-for-woocommerce' ) );
+			wp_send_json_error( __( 'Insufficient permissions', 'upsellsmart-product-recommendations' ) );
 			return;
 		}
 
 		// Schedule the rebuild
 		wp_schedule_single_event( time() + 10, 'proreen_product_recommendations_build_data' );
 
-		wp_send_json_success( __( 'Recommendation data rebuild scheduled. This may take a few minutes.', 'smart-product-recommendations-for-woocommerce' ) );
+		wp_send_json_success( __( 'Recommendation data rebuild scheduled. This may take a few minutes.', 'upsellsmart-product-recommendations' ) );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class PROREEN_Product_Recommendations_Ajax {
 		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_send_json_error( __( 'Insufficient permissions', 'smart-product-recommendations-for-woocommerce' ) );
+			wp_send_json_error( __( 'Insufficient permissions', 'upsellsmart-product-recommendations' ) );
 			return;
 		}
 
@@ -81,7 +81,7 @@ class PROREEN_Product_Recommendations_Ajax {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is whitelisted and safe
 		$wpdb->query( "TRUNCATE TABLE $table_name" );
 
-		wp_send_json_success( __( 'All recommendation data cleared.', 'smart-product-recommendations-for-woocommerce' ) );
+		wp_send_json_success( __( 'All recommendation data cleared.', 'upsellsmart-product-recommendations' ) );
 	}
 
 	/**

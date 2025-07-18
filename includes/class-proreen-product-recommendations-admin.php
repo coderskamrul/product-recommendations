@@ -22,10 +22,10 @@ class PROREEN_Product_Recommendations_Admin {
 	public function admin_menu() {
 		add_submenu_page(
 			'woocommerce',
-			__( 'Product Recommendations', 'smart-product-recommendations-for-woocommerce' ),
-			__( 'Recommendations', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Product Recommendations', 'upsellsmart-product-recommendations' ),
+			__( 'Recommendations', 'upsellsmart-product-recommendations' ),
 			'manage_woocommerce',
-			'smart-product-recommendations-for-woocommerce',
+			'upsellsmart-product-recommendations',
 			array( $this, 'admin_page' )
 		);
 	}
@@ -98,7 +98,7 @@ class PROREEN_Product_Recommendations_Admin {
 		// General Settings Section.
 		add_settings_section(
 			'proreen_product_recommendations_general',
-			__( 'Setting Configuration', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Setting Configuration', 'upsellsmart-product-recommendations' ),
 			array( $this, 'general_section_callback' ),
 			'proreen_product_recommendations_settings'
 		);
@@ -106,7 +106,7 @@ class PROREEN_Product_Recommendations_Admin {
 		// Engine Settings Section.
 		add_settings_section(
 			'proreen_product_recommendations_engines',
-			__( 'Recommendation Engines', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Recommendation Engines', 'upsellsmart-product-recommendations' ),
 			array( $this, 'engines_section_callback' ),
 			'proreen_product_recommendations_settings'
 		);
@@ -114,7 +114,7 @@ class PROREEN_Product_Recommendations_Admin {
 		// Display Settings Section.
 		add_settings_section(
 			'proreen_product_recommendations_display',
-			__( 'Display Settings', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Display Settings', 'upsellsmart-product-recommendations' ),
 			array( $this, 'display_section_callback' ),
 			'proreen_product_recommendations_settings'
 		);
@@ -129,51 +129,51 @@ class PROREEN_Product_Recommendations_Admin {
 		// General fields
 		add_settings_field(
 			'enabled',
-			__( 'Enable Recommendations', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Enable Recommendations', 'upsellsmart-product-recommendations' ),
 			array( $this, 'checkbox_field' ),
 			'proreen_product_recommendations_settings',
 			'proreen_product_recommendations_general',
 			array(
 				'field'       => 'enabled',
-				'description' => __( 'Enable product recommendations globally', 'smart-product-recommendations-for-woocommerce' ),
+				'description' => __( 'Enable product recommendations globally', 'upsellsmart-product-recommendations' ),
 			)
 		);
 
 		add_settings_field(
 			'active_engine',
-			__( 'Active Engine', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Active Engine', 'upsellsmart-product-recommendations' ),
 			array( $this, 'select_field' ),
 			'proreen_product_recommendations_settings',
 			'proreen_product_recommendations_general',
 			array(
 				'field'       => 'active_engine',
 				'options'     => array(
-					'content'     => __( 'Content-Based (Categories/Tags)', 'smart-product-recommendations-for-woocommerce' ),
-					'association' => __( 'Association-Based (Frequently Bought Together)', 'smart-product-recommendations-for-woocommerce' ),
-					'hybrid'      => __( 'Hybrid (Both Engines)', 'smart-product-recommendations-for-woocommerce' ),
+					'content'     => __( 'Content-Based (Categories/Tags)', 'upsellsmart-product-recommendations' ),
+					'association' => __( 'Association-Based (Frequently Bought Together)', 'upsellsmart-product-recommendations' ),
+					'hybrid'      => __( 'Hybrid (Both Engines)', 'upsellsmart-product-recommendations' ),
 				),
-				'description' => __( 'Choose which recommendation engine to use', 'smart-product-recommendations-for-woocommerce' ),
+				'description' => __( 'Choose which recommendation engine to use', 'upsellsmart-product-recommendations' ),
 			)
 		);
 
 		add_settings_field(
 			'show_locations',
-			__( 'Display Locations', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Display Locations', 'upsellsmart-product-recommendations' ),
 			array( $this, 'checkbox_group_field' ),
 			'proreen_product_recommendations_settings',
 			'proreen_product_recommendations_general',
 			array(
 				'fields' => array(
-					'show_on_product'  => __( 'Single Product Page', 'smart-product-recommendations-for-woocommerce' ),
-					'show_on_cart'     => __( 'Cart Page', 'smart-product-recommendations-for-woocommerce' ),
-					'show_on_checkout' => __( 'Checkout Page', 'smart-product-recommendations-for-woocommerce' ),
+					'show_on_product'  => __( 'Single Product Page', 'upsellsmart-product-recommendations' ),
+					'show_on_cart'     => __( 'Cart Page', 'upsellsmart-product-recommendations' ),
+					'show_on_checkout' => __( 'Checkout Page', 'upsellsmart-product-recommendations' ),
 				),
 			)
 		);
 
 		add_settings_field(
 			'max_recommendations',
-			__( 'Maximum Recommendations', 'smart-product-recommendations-for-woocommerce' ),
+			__( 'Maximum Recommendations', 'upsellsmart-product-recommendations' ),
 			array( $this, 'number_field' ),
 			'proreen_product_recommendations_settings',
 			'proreen_product_recommendations_general',
@@ -181,7 +181,7 @@ class PROREEN_Product_Recommendations_Admin {
 				'field'       => 'max_recommendations',
 				'min'         => 1,
 				'max'         => 20,
-				'description' => __( 'Maximum number of products to recommend', 'smart-product-recommendations-for-woocommerce' ),
+				'description' => __( 'Maximum number of products to recommend', 'upsellsmart-product-recommendations' ),
 			)
 		);
 	}
@@ -196,32 +196,32 @@ class PROREEN_Product_Recommendations_Admin {
 			
 			<div class="wc-product-recommendations-admin">
 				<div class="nav-tab-wrapper">
-					<a href="#general" class="nav-tab nav-tab-active"><?php esc_html_e( 'General', 'smart-product-recommendations-for-woocommerce' ); ?></a>
-					<a href="#engines" class="nav-tab"><?php esc_html_e( 'Engines', 'smart-product-recommendations-for-woocommerce' ); ?></a>
-					<a href="#display" class="nav-tab"><?php esc_html_e( 'Display', 'smart-product-recommendations-for-woocommerce' ); ?></a>
-					<a href="#tools" class="nav-tab"><?php esc_html_e( 'Tools', 'smart-product-recommendations-for-woocommerce' ); ?></a>
+					<a href="#general" class="nav-tab nav-tab-active"><?php esc_html_e( 'General', 'upsellsmart-product-recommendations' ); ?></a>
+					<a href="#engines" class="nav-tab"><?php esc_html_e( 'Engines', 'upsellsmart-product-recommendations' ); ?></a>
+					<a href="#display" class="nav-tab"><?php esc_html_e( 'Display', 'upsellsmart-product-recommendations' ); ?></a>
+					<a href="#tools" class="nav-tab"><?php esc_html_e( 'Tools', 'upsellsmart-product-recommendations' ); ?></a>
 				</div>
 				
 				<form method="post" action="options.php">
 					<?php settings_fields( 'proreen_product_recommendations_settings' ); ?>
 					
 					<div id="general" class="tab-content active">
-						<h2><?php esc_html_e( 'General Settings', 'smart-product-recommendations-for-woocommerce' ); ?></h2>
+						<h2><?php esc_html_e( 'General Settings', 'upsellsmart-product-recommendations' ); ?></h2>
 						<?php do_settings_sections( 'proreen_product_recommendations_settings' ); ?>
 					</div>
 					
 					<div id="engines" class="tab-content">
-						<h2><?php esc_html_e( 'Engine Configuration', 'smart-product-recommendations-for-woocommerce' ); ?></h2>
+						<h2><?php esc_html_e( 'Engine Configuration', 'upsellsmart-product-recommendations' ); ?></h2>
 						<?php $this->render_engine_settings(); ?>
 					</div>
 					
 					<div id="display" class="tab-content">
-						<h2><?php esc_html_e( 'Display Settings', 'smart-product-recommendations-for-woocommerce' ); ?></h2>
+						<h2><?php esc_html_e( 'Display Settings', 'upsellsmart-product-recommendations' ); ?></h2>
 						<?php $this->render_display_settings(); ?>
 					</div>
 					
 					<div id="tools" class="tab-content">
-						<h2><?php esc_html_e( 'Tools & Maintenance', 'smart-product-recommendations-for-woocommerce' ); ?></h2>
+						<h2><?php esc_html_e( 'Tools & Maintenance', 'upsellsmart-product-recommendations' ); ?></h2>
 						<?php $this->render_tools(); ?>
 					</div>
 					
@@ -240,53 +240,53 @@ class PROREEN_Product_Recommendations_Admin {
 		?>
 		<table class="form-table">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Content Engine Settings', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Content Engine Settings', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<fieldset>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_categories]" value="yes" <?php checked( isset( $settings['content_engine']['match_categories'] ) ? $settings['content_engine']['match_categories'] : 'yes', 'yes' ); ?>>
-							<?php esc_html_e( 'Match by Categories', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Match by Categories', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_tags]" value="yes" <?php checked( isset( $settings['content_engine']['match_tags'] ) ? $settings['content_engine']['match_tags'] : 'yes', 'yes' ); ?>>
-							<?php esc_html_e( 'Match by Tags', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Match by Tags', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_attributes]" value="yes" <?php checked( isset( $settings['content_engine']['match_attributes'] ) ? $settings['content_engine']['match_attributes'] : 'no', 'yes' ); ?>>
-							<?php esc_html_e( 'Match by Attributes', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Match by Attributes', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<?php esc_html_e( 'Sort by:', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Sort by:', 'upsellsmart-product-recommendations' ); ?>
 							<select name="proreen_product_recommendations_settings[content_engine][sort_by]">
-								<option value="popularity" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'popularity' ); ?>><?php esc_html_e( 'Popularity', 'smart-product-recommendations-for-woocommerce' ); ?></option>
-								<option value="rating" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'rating' ); ?>><?php esc_html_e( 'Rating', 'smart-product-recommendations-for-woocommerce' ); ?></option>
-								<option value="price_low" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'price_low' ); ?>><?php esc_html_e( 'Price: Low to High', 'smart-product-recommendations-for-woocommerce' ); ?></option>
-								<option value="price_high" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'price_high' ); ?>><?php esc_html_e( 'Price: High to Low', 'smart-product-recommendations-for-woocommerce' ); ?></option>
-								<option value="date" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'date' ); ?>><?php esc_html_e( 'Newest First', 'smart-product-recommendations-for-woocommerce' ); ?></option>
+								<option value="popularity" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'popularity' ); ?>><?php esc_html_e( 'Popularity', 'upsellsmart-product-recommendations' ); ?></option>
+								<option value="rating" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'rating' ); ?>><?php esc_html_e( 'Rating', 'upsellsmart-product-recommendations' ); ?></option>
+								<option value="price_low" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'price_low' ); ?>><?php esc_html_e( 'Price: Low to High', 'upsellsmart-product-recommendations' ); ?></option>
+								<option value="price_high" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'price_high' ); ?>><?php esc_html_e( 'Price: High to Low', 'upsellsmart-product-recommendations' ); ?></option>
+								<option value="date" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'date' ); ?>><?php esc_html_e( 'Newest First', 'upsellsmart-product-recommendations' ); ?></option>
 							</select>
 						</label>
 					</fieldset>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Association Engine Settings', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Association Engine Settings', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<fieldset>
 						<label>
-							<?php esc_html_e( 'Minimum Support (co-purchases):', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Minimum Support (co-purchases):', 'upsellsmart-product-recommendations' ); ?>
 							<input type="number" name="proreen_product_recommendations_settings[association_engine][min_support]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_support'] ) ? $settings['association_engine']['min_support'] : 2 ); ?>" min="1" max="100">
 						</label><br>
 						<label>
-							<?php esc_html_e( 'Days to look back:', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Days to look back:', 'upsellsmart-product-recommendations' ); ?>
 							<input type="number" name="proreen_product_recommendations_settings[association_engine][days_back]" value="<?php echo esc_attr( isset( $settings['association_engine']['days_back'] ) ? $settings['association_engine']['days_back'] : 365 ); ?>" min="30" max="3650">
 						</label><br>
 						<label>
-							<?php esc_html_e( 'Minimum Confidence:', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Minimum Confidence:', 'upsellsmart-product-recommendations' ); ?>
 							<input type="number" name="proreen_product_recommendations_settings[association_engine][min_confidence]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_confidence'] ) ? $settings['association_engine']['min_confidence'] : 0.1 ); ?>" min="0.01" max="1" step="0.01">
 						</label><br>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[association_engine][use_views]" value="yes" <?php checked( isset( $settings['association_engine']['use_views'] ) ? $settings['association_engine']['use_views'] : 'no', 'yes' ); ?>>
-							<?php esc_html_e( 'Include view history (requires tracking)', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Include view history (requires tracking)', 'upsellsmart-product-recommendations' ); ?>
 						</label>
 					</fieldset>
 				</td>
@@ -303,14 +303,14 @@ class PROREEN_Product_Recommendations_Admin {
 		?>
 		<table class="form-table">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Section Title', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Section Title', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<input type="text" name="proreen_product_recommendations_settings[display_settings][title]" value="<?php echo esc_attr( isset( $settings['display_settings']['title'] ) ? $settings['display_settings']['title'] : 'You might also like' ); ?>" class="regular-text">
-					<p class="description"><?php esc_html_e( 'Title displayed above recommendations', 'smart-product-recommendations-for-woocommerce' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Title displayed above recommendations', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Columns', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Columns', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<select name="proreen_product_recommendations_settings[display_settings][columns]">
 						<option value="2" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 2 ); ?>>2</option>
@@ -319,24 +319,24 @@ class PROREEN_Product_Recommendations_Admin {
 						<option value="5" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 5 ); ?>>5</option>
 						<option value="6" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 6 ); ?>>6</option>
 					</select>
-					<p class="description"><?php esc_html_e( 'Number of columns to display recommendations in', 'smart-product-recommendations-for-woocommerce' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Number of columns to display recommendations in', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Display Options', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Display Options', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<fieldset>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_price]" value="yes" <?php checked( isset( $settings['display_settings']['show_price'] ) ? $settings['display_settings']['show_price'] : 'yes', 'yes' ); ?>>
-							<?php esc_html_e( 'Show Price', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Show Price', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_rating]" value="yes" <?php checked( isset( $settings['display_settings']['show_rating'] ) ? $settings['display_settings']['show_rating'] : 'yes', 'yes' ); ?>>
-							<?php esc_html_e( 'Show Rating', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Show Rating', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
 							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_add_to_cart]" value="yes" <?php checked( isset( $settings['display_settings']['show_add_to_cart'] ) ? $settings['display_settings']['show_add_to_cart'] : 'yes', 'yes' ); ?>>
-							<?php esc_html_e( 'Show Add to Cart Button', 'smart-product-recommendations-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Show Add to Cart Button', 'upsellsmart-product-recommendations' ); ?>
 						</label>
 					</fieldset>
 				</td>
@@ -371,25 +371,25 @@ class PROREEN_Product_Recommendations_Admin {
 		?>
 		<table class="form-table">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Recommendation Data', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Recommendation Data', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<p>
 					<?php
 					// translators: %d is the number of current recommendations in the database.
-					echo esc_html( sprintf( __( 'Current recommendations in database: %d', 'smart-product-recommendations-for-woocommerce' ), $count ) );
+					echo esc_html( sprintf( __( 'Current recommendations in database: %d', 'upsellsmart-product-recommendations' ), $count ) );
 					?>
 					</p>
-					<button type="button" class="button" id="rebuild-recommendations"><?php esc_html_e( 'Rebuild Recommendation Data', 'smart-product-recommendations-for-woocommerce' ); ?></button>
-					<button type="button" class="button" id="clear-recommendations"><?php esc_html_e( 'Clear All Data', 'smart-product-recommendations-for-woocommerce' ); ?></button>
-					<p class="description"><?php esc_html_e( 'Rebuild data to update recommendations based on recent orders. This may take a few minutes.', 'smart-product-recommendations-for-woocommerce' ); ?></p>
+					<button type="button" class="button" id="rebuild-recommendations"><?php esc_html_e( 'Rebuild Recommendation Data', 'upsellsmart-product-recommendations' ); ?></button>
+					<button type="button" class="button" id="clear-recommendations"><?php esc_html_e( 'Clear All Data', 'upsellsmart-product-recommendations' ); ?></button>
+					<p class="description"><?php esc_html_e( 'Rebuild data to update recommendations based on recent orders. This may take a few minutes.', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Export/Import', 'smart-product-recommendations-for-woocommerce' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Export/Import', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
-					<button type="button" class="button"><?php esc_html_e( 'Export Settings', 'smart-product-recommendations-for-woocommerce' ); ?></button>
-					<button type="button" class="button"><?php esc_html_e( 'Import Settings', 'smart-product-recommendations-for-woocommerce' ); ?></button>
-					<p class="description"><?php esc_html_e( 'Export or import plugin settings for backup or migration.', 'smart-product-recommendations-for-woocommerce' ); ?></p>
+					<button type="button" class="button"><?php esc_html_e( 'Export Settings', 'upsellsmart-product-recommendations' ); ?></button>
+					<button type="button" class="button"><?php esc_html_e( 'Import Settings', 'upsellsmart-product-recommendations' ); ?></button>
+					<p class="description"><?php esc_html_e( 'Export or import plugin settings for backup or migration.', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 		</table>
@@ -404,8 +404,8 @@ class PROREEN_Product_Recommendations_Admin {
 		?>
 		<div class="options_group">
 			<p class="form-field">
-				<label for="custom_recommendations"><?php esc_html_e( 'Custom Recommendations', 'smart-product-recommendations-for-woocommerce' ); ?></label>
-				<select class="wc-product-search" multiple="multiple" style="width: 50%;" id="custom_recommendations" name="custom_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products&hellip;', 'smart-product-recommendations-for-woocommerce' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
+				<label for="custom_recommendations"><?php esc_html_e( 'Custom Recommendations', 'upsellsmart-product-recommendations' ); ?></label>
+				<select class="wc-product-search" multiple="multiple" style="width: 50%;" id="custom_recommendations" name="custom_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products&hellip;', 'upsellsmart-product-recommendations' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
 					<?php
 					$product_ids = get_post_meta( $post->ID, '_custom_recommendations', true );
 					if ( $product_ids ) {
@@ -418,12 +418,12 @@ class PROREEN_Product_Recommendations_Admin {
 					}
 					?>
 				</select>
-				<?php echo esc_html( wc_help_tip( __( 'Manually select products to recommend for this product. These will override algorithmic recommendations.', 'smart-product-recommendations-for-woocommerce' ) ) ); ?>
+				<?php echo esc_html( wc_help_tip( __( 'Manually select products to recommend for this product. These will override algorithmic recommendations.', 'upsellsmart-product-recommendations' ) ) ); ?>
 			</p>
 			
 			<p class="form-field">
-				<label for="excluded_recommendations"><?php esc_html_e( 'Exclude from Recommendations', 'smart-product-recommendations-for-woocommerce' ); ?></label>
-				<select class="wc-product-search" multiple="multiple" style="width: 50%;" id="excluded_recommendations" name="excluded_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products to exclude&hellip;', 'smart-product-recommendations-for-woocommerce' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
+				<label for="excluded_recommendations"><?php esc_html_e( 'Exclude from Recommendations', 'upsellsmart-product-recommendations' ); ?></label>
+				<select class="wc-product-search" multiple="multiple" style="width: 50%;" id="excluded_recommendations" name="excluded_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products to exclude&hellip;', 'upsellsmart-product-recommendations' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
 					<?php
 					$excluded_ids = get_post_meta( $post->ID, '_excluded_recommendations', true );
 					if ( $excluded_ids ) {
@@ -436,7 +436,7 @@ class PROREEN_Product_Recommendations_Admin {
 					}
 					?>
 				</select>
-				<?php echo esc_html( wc_help_tip( __( 'Products that should never be recommended for this product.', 'smart-product-recommendations-for-woocommerce' ) ) ); ?>
+				<?php echo esc_html( wc_help_tip( __( 'Products that should never be recommended for this product.', 'upsellsmart-product-recommendations' ) ) ); ?>
 			</p>
 		</div>
 		<?php
@@ -535,20 +535,20 @@ class PROREEN_Product_Recommendations_Admin {
 	 * Section callbacks
 	 */
 	public function general_section_callback() {
-		echo '<p>' . esc_html__( 'Configure general recommendation settings.', 'smart-product-recommendations-for-woocommerce' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure general recommendation settings.', 'upsellsmart-product-recommendations' ) . '</p>';
 	}
 
 	/**
 	 * Engines section callback
 	 */
 	public function engines_section_callback() {
-		echo '<p>' . esc_html__( 'Configure recommendation engine parameters.', 'smart-product-recommendations-for-woocommerce' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure recommendation engine parameters.', 'upsellsmart-product-recommendations' ) . '</p>';
 	}
 
 	/**
 	 * Display section callback
 	 */
 	public function display_section_callback() {
-		echo '<p>' . esc_html__( 'Configure how recommendations are displayed.', 'smart-product-recommendations-for-woocommerce' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure how recommendations are displayed.', 'upsellsmart-product-recommendations' ) . '</p>';
 	}
 }
