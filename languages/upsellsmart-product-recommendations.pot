@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UpSellSmart – Product Recommendations 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/upsellsmart-product-recommendations\n"
-"POT-Creation-Date: 2025-07-26 12:12:02+00:00\n"
+"POT-Creation-Date: 2025-07-26 14:27:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,287 +12,287 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class-proreen-product-recommendations-admin.php:25
+#: includes/class-upspr-product-recommendations-admin.php:25
 msgid "Product Recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:26
+#: includes/class-upspr-product-recommendations-admin.php:26
 msgid "Recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:101
+#: includes/class-upspr-product-recommendations-admin.php:101
 msgid "Setting Configuration"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:109
+#: includes/class-upspr-product-recommendations-admin.php:109
 msgid "Recommendation Engines"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:117
-#: includes/class-proreen-product-recommendations-admin.php:219
+#: includes/class-upspr-product-recommendations-admin.php:117
+#: includes/class-upspr-product-recommendations-admin.php:219
 msgid "Display Settings"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:132
+#: includes/class-upspr-product-recommendations-admin.php:132
 msgid "Enable Recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:138
+#: includes/class-upspr-product-recommendations-admin.php:138
 msgid "Enable product recommendations globally"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:144
+#: includes/class-upspr-product-recommendations-admin.php:144
 msgid "Active Engine"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:151
+#: includes/class-upspr-product-recommendations-admin.php:151
 msgid "Content-Based (Categories/Tags)"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:152
+#: includes/class-upspr-product-recommendations-admin.php:152
 msgid "Association-Based (Frequently Bought Together)"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:153
+#: includes/class-upspr-product-recommendations-admin.php:153
 msgid "Hybrid (Both Engines)"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:155
+#: includes/class-upspr-product-recommendations-admin.php:155
 msgid "Choose which recommendation engine to use"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:161
+#: includes/class-upspr-product-recommendations-admin.php:161
 msgid "Display Locations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:167
+#: includes/class-upspr-product-recommendations-admin.php:167
 msgid "Single Product Page"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:168
+#: includes/class-upspr-product-recommendations-admin.php:168
 msgid "Cart Page"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:169
+#: includes/class-upspr-product-recommendations-admin.php:169
 msgid "Checkout Page"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:176
+#: includes/class-upspr-product-recommendations-admin.php:176
 msgid "Maximum Recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:184
+#: includes/class-upspr-product-recommendations-admin.php:184
 msgid "Maximum number of products to recommend"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:199
+#: includes/class-upspr-product-recommendations-admin.php:199
 msgid "General"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:200
+#: includes/class-upspr-product-recommendations-admin.php:200
 msgid "Engines"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:201
+#: includes/class-upspr-product-recommendations-admin.php:201
 msgid "Display"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:202
+#: includes/class-upspr-product-recommendations-admin.php:202
 msgid "Tools"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:209
+#: includes/class-upspr-product-recommendations-admin.php:209
 msgid "General Settings"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:214
+#: includes/class-upspr-product-recommendations-admin.php:214
 msgid "Engine Configuration"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:224
+#: includes/class-upspr-product-recommendations-admin.php:224
 msgid "Tools & Maintenance"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:243
+#: includes/class-upspr-product-recommendations-admin.php:243
 msgid "Content Engine Settings"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:248
+#: includes/class-upspr-product-recommendations-admin.php:248
 msgid "Match by Categories"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:252
+#: includes/class-upspr-product-recommendations-admin.php:252
 msgid "Match by Tags"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:256
+#: includes/class-upspr-product-recommendations-admin.php:256
 msgid "Match by Attributes"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:259
+#: includes/class-upspr-product-recommendations-admin.php:259
 msgid "Sort by:"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:261
+#: includes/class-upspr-product-recommendations-admin.php:261
 msgid "Popularity"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:262
+#: includes/class-upspr-product-recommendations-admin.php:262
 msgid "Rating"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:263
+#: includes/class-upspr-product-recommendations-admin.php:263
 msgid "Price: Low to High"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:264
+#: includes/class-upspr-product-recommendations-admin.php:264
 msgid "Price: High to Low"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:265
+#: includes/class-upspr-product-recommendations-admin.php:265
 msgid "Newest First"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:272
+#: includes/class-upspr-product-recommendations-admin.php:272
 msgid "Association Engine Settings"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:276
+#: includes/class-upspr-product-recommendations-admin.php:276
 msgid "Minimum Support (co-purchases):"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:280
+#: includes/class-upspr-product-recommendations-admin.php:280
 msgid "Days to look back:"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:284
+#: includes/class-upspr-product-recommendations-admin.php:284
 msgid "Minimum Confidence:"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:289
+#: includes/class-upspr-product-recommendations-admin.php:289
 msgid "Include view history (requires tracking)"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:306
+#: includes/class-upspr-product-recommendations-admin.php:306
 msgid "Section Title"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:309
+#: includes/class-upspr-product-recommendations-admin.php:309
 msgid "Title displayed above recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:313
+#: includes/class-upspr-product-recommendations-admin.php:313
 msgid "Columns"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:322
+#: includes/class-upspr-product-recommendations-admin.php:322
 msgid "Number of columns to display recommendations in"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:326
+#: includes/class-upspr-product-recommendations-admin.php:326
 msgid "Display Options"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:331
+#: includes/class-upspr-product-recommendations-admin.php:331
 msgid "Show Price"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:335
+#: includes/class-upspr-product-recommendations-admin.php:335
 msgid "Show Rating"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:339
+#: includes/class-upspr-product-recommendations-admin.php:339
 msgid "Show Add to Cart Button"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:374
+#: includes/class-upspr-product-recommendations-admin.php:374
 msgid "Recommendation Data"
 msgstr ""
 
 #. translators: %d is the number of current recommendations in the database.
 
-#: includes/class-proreen-product-recommendations-admin.php:379
+#: includes/class-upspr-product-recommendations-admin.php:379
 msgid "Current recommendations in database: %d"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:382
+#: includes/class-upspr-product-recommendations-admin.php:382
 msgid "Rebuild Recommendation Data"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:383
+#: includes/class-upspr-product-recommendations-admin.php:383
 msgid "Clear All Data"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:384
+#: includes/class-upspr-product-recommendations-admin.php:384
 msgid "Rebuild data to update recommendations based on recent orders. This may take a few minutes."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:388
+#: includes/class-upspr-product-recommendations-admin.php:388
 msgid "Export/Import"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:390
+#: includes/class-upspr-product-recommendations-admin.php:390
 msgid "Export Settings"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:391
+#: includes/class-upspr-product-recommendations-admin.php:391
 msgid "Import Settings"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:392
+#: includes/class-upspr-product-recommendations-admin.php:392
 msgid "Export or import plugin settings for backup or migration."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:407
+#: includes/class-upspr-product-recommendations-admin.php:406
 msgid "Custom Recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:408
+#: includes/class-upspr-product-recommendations-admin.php:407
 msgid "Search for products&hellip;"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:421
+#: includes/class-upspr-product-recommendations-admin.php:420
 msgid "Manually select products to recommend for this product. These will override algorithmic recommendations."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:425
+#: includes/class-upspr-product-recommendations-admin.php:424
 msgid "Exclude from Recommendations"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:426
+#: includes/class-upspr-product-recommendations-admin.php:425
 msgid "Search for products to exclude&hellip;"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:439
+#: includes/class-upspr-product-recommendations-admin.php:438
 msgid "Products that should never be recommended for this product."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:538
+#: includes/class-upspr-product-recommendations-admin.php:537
 msgid "Configure general recommendation settings."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:545
+#: includes/class-upspr-product-recommendations-admin.php:544
 msgid "Configure recommendation engine parameters."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-admin.php:552
+#: includes/class-upspr-product-recommendations-admin.php:551
 msgid "Configure how recommendations are displayed."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-ajax.php:58
-#: includes/class-proreen-product-recommendations-ajax.php:75
+#: includes/class-upspr-product-recommendations-ajax.php:58
+#: includes/class-upspr-product-recommendations-ajax.php:75
 msgid "Insufficient permissions"
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-ajax.php:65
+#: includes/class-upspr-product-recommendations-ajax.php:65
 msgid "Recommendation data rebuild scheduled. This may take a few minutes."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-ajax.php:84
+#: includes/class-upspr-product-recommendations-ajax.php:84
 msgid "All recommendation data cleared."
 msgstr ""
 
-#: includes/class-proreen-product-recommendations-display.php:101
+#: includes/class-upspr-product-recommendations-display.php:101
 msgid "You might also like"
 msgstr ""
 
