@@ -23,16 +23,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants
-define( 'PROREEN_PRODUCT_RECOMMENDATIONS_VERSION', '1.0.0' );
-define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_FILE', __FILE__ );
-define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'UPSPR_PRODUCT_RECOMMENDATIONS_VERSION', '1.0.0' );
+define( 'UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_FILE', __FILE__ );
+define( 'UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Main plugin class
  */
-class PROREEN_Product_Recommendations {
+class UPSPR_Product_Recommendations {
 
 	/**
 	 * Single instance of the class
@@ -42,7 +42,7 @@ class PROREEN_Product_Recommendations {
 	/**
 	 * Main instance
 	 */
-	public static function instance() {
+	public static function upspr_instance() {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
@@ -53,12 +53,12 @@ class PROREEN_Product_Recommendations {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+		add_action( 'init', array( $this, 'upspr_init' ) );
+		add_action( 'plugins_loaded', array( $this, 'upspr_plugins_loaded' ) );
+		register_activation_hook( __FILE__, array( $this, 'upspr_activate' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'upspr_deactivate' ) );
 		// Add compatibility features
-		add_action( 'before_woocommerce_init', array( $this, 'declare_compatibility_features' ) );
+		add_action( 'before_woocommerce_init', array( $this, 'upspr_declare_compatibility_features' ) );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class PROREEN_Product_Recommendations {
 	 * This method is used to declare compatibility with WooCommerce features.
 	 * It checks if the FeaturesUtil class exists and declares the features.
 	 */
-	public function declare_compatibility_features() {
+	public function upspr_declare_compatibility_features() {
 		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
@@ -75,75 +75,75 @@ class PROREEN_Product_Recommendations {
 	/**
 	 * Initialize the plugin
 	 */
-	public function init() {
+	public function upspr_init() {
 		// Check if WooCommerce is active
 		if ( ! class_exists( 'WooCommerce' ) ) {
-			add_action( 'admin_notices', array( $this, 'woocommerce_missing_notice' ) );
+			add_action( 'admin_notices', array( $this, 'upspr_woocommerce_missing_notice' ) );
 			return;
 		}
 
-		$this->includes();
-		$this->init_hooks();
+		$this->upspr_includes();
+		$this->upspr_init_hooks();
 	}
 
 	/**
 	 * Include required files
 	 */
-	private function includes() {
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-admin.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-engine.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-display.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-ajax.php';
-		include_once PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-proreen-product-recommendations-data.php';
+	private function upspr_includes() {
+		include_once UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-upspr-product-recommendations-admin.php';
+		include_once UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-upspr-product-recommendations-engine.php';
+		include_once UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-upspr-product-recommendations-display.php';
+		include_once UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-upspr-product-recommendations-ajax.php';
+		include_once UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_PATH . 'includes/class-upspr-product-recommendations-data.php';
 	}
 
 	/**
 	 * Initialize hooks
 	 */
-	private function init_hooks() {
+	private function upspr_init_hooks() {
 		// Initialize classes
-		new PROREEN_Product_Recommendations_Admin();
-		new PROREEN_Product_Recommendations_Display();
-		new PROREEN_Product_Recommendations_Ajax();
+		new UPSPR_Product_Recommendations_Admin();
+		new UPSPR_Product_Recommendations_Display();
+		new UPSPR_Product_Recommendations_Ajax();
 
 		// Enqueue scripts and styles
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'upspr_enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'upspr_admin_enqueue_scripts' ) );
 	}
 
 	/**
 	 * Plugin activation
 	 */
-	public function activate() {
+	public function upspr_activate() {
 		// Create database tables
-		$this->create_tables();
+		$this->upspr_create_tables();
 
 		// Set default options
-		$this->set_default_options();
+		$this->upspr_set_default_options();
 
 		// Build initial recommendation data
-		wp_schedule_single_event( time() + 60, 'proreen_product_recommendations_build_data' );
+		wp_schedule_single_event( time() + 60, 'upspr_product_recommendations_build_data' );
 	}
 
 	/**
 	 * Plugin deactivation
 	 */
-	public function deactivate() {
+	public function upspr_deactivate() {
 		// Clear scheduled events
-		wp_clear_scheduled_hook( 'proreen_product_recommendations_build_data' );
-		wp_clear_scheduled_hook( 'proreen_product_recommendations_update_data' );
+		wp_clear_scheduled_hook( 'upspr_product_recommendations_build_data' );
+		wp_clear_scheduled_hook( 'upspr_product_recommendations_update_data' );
 	}
 
 	/**
 	 * Create database tables
 	 */
-	private function create_tables() {
+	private function upspr_create_tables() {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
 
 		// Table for storing product associations
-		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		$table_name = $wpdb->prefix . 'upspr_product_recommendations';
 
 		$sql = "CREATE TABLE $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -168,7 +168,7 @@ class PROREEN_Product_Recommendations {
 	/**
 	 * Set default plugin options
 	 */
-	private function set_default_options() {
+	private function upspr_set_default_options() {
 		$defaults = array(
 			'enabled'             => 'yes',
 			'active_engine'       => 'content',
@@ -197,36 +197,36 @@ class PROREEN_Product_Recommendations {
 			),
 		);
 
-		add_option( 'proreen_product_recommendations_settings', $defaults );
+		add_option( 'upspr_product_recommendations_settings', $defaults );
 	}
 
 	/**
 	 * Enqueue frontend scripts and styles
 	 */
-	public function enqueue_scripts() {
+	public function upspr_enqueue_scripts() {
 		if ( is_product() || is_cart() || is_checkout() ) {
 			wp_enqueue_script(
 				'upsellsmart-product-recommendations',
-				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
+				UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/frontend.js',
 				array( 'jquery', 'wc-cart-fragments' ),
-				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION,
+				UPSPR_PRODUCT_RECOMMENDATIONS_VERSION,
 				true
 			);
 
 			wp_localize_script(
 				'upsellsmart-product-recommendations',
-				'proreen_product_recommendations',
+				'upspr_product_recommendations',
 				array(
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
-					'nonce'    => wp_create_nonce( 'proreen_product_recommendations_nonce' ),
+					'nonce'    => wp_create_nonce( 'upspr_product_recommendations_nonce' ),
 				)
 			);
 
 			wp_enqueue_style(
 				'upsellsmart-product-recommendations',
-				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
+				UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/frontend.css',
 				array(),
-				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION
+				UPSPR_PRODUCT_RECOMMENDATIONS_VERSION
 			);
 		}
 	}
@@ -234,21 +234,21 @@ class PROREEN_Product_Recommendations {
 	/**
 	 * Enqueue admin scripts and styles
 	 */
-	public function admin_enqueue_scripts( $hook ) {
+	public function upspr_admin_enqueue_scripts( $hook ) {
 		if ( strpos( $hook, 'upsellsmart-product-recommendations' ) !== false ) {
 			wp_enqueue_script(
-				'proreen-product-recommendations-admin',
-				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
+				'upspr-product-recommendations-admin',
+				UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/js/admin.js',
 				array( 'jquery' ),
-				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION,
+				UPSPR_PRODUCT_RECOMMENDATIONS_VERSION,
 				true
 			);
 
 			wp_enqueue_style(
-				'proreen-product-recommendations-admin',
-				PROREEN_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
+				'upspr-product-recommendations-admin',
+				UPSPR_PRODUCT_RECOMMENDATIONS_PLUGIN_URL . 'assets/css/admin.css',
 				array(),
-				PROREEN_PRODUCT_RECOMMENDATIONS_VERSION
+				UPSPR_PRODUCT_RECOMMENDATIONS_VERSION
 			);
 		}
 	}
@@ -256,7 +256,7 @@ class PROREEN_Product_Recommendations {
 	/**
 	 * WooCommerce missing notice
 	 */
-	public function woocommerce_missing_notice() {
+	public function upspr_woocommerce_missing_notice() {
 		// translators: %s: Plugin name.
 		echo '<div class="error"><p><strong>' . sprintf( esc_html__( '%s requires WooCommerce to be installed and active.', 'upsellsmart-product-recommendations' ), 'UpSellSmart – Product Recommendations' ) . '</strong></p></div>';
 	}
@@ -264,10 +264,10 @@ class PROREEN_Product_Recommendations {
 	/**
 	 * Plugins loaded
 	 */
-	public function plugins_loaded() {
+	public function upspr_plugins_loaded() {
 		// Schedule data updates
-		if ( ! wp_next_scheduled( 'proreen_product_recommendations_update_data' ) ) {
-			wp_schedule_event( time(), 'daily', 'proreen_product_recommendations_update_data' );
+		if ( ! wp_next_scheduled( 'upspr_product_recommendations_update_data' ) ) {
+			wp_schedule_event( time(), 'daily', 'upspr_product_recommendations_update_data' );
 		}
 
 		// Hook into order completion to update data
@@ -278,18 +278,18 @@ class PROREEN_Product_Recommendations {
 	 * Update recommendation data when order is completed
 	 */
 	public function update_data_on_order( $order_id ) {
-		wp_schedule_single_event( time() + 300, 'proreen_product_recommendations_build_data' );
+		wp_schedule_single_event( time() + 300, 'upspr_product_recommendations_build_data' );
 	}
 }
 
 // Initialize the plugin.
-function PROREEN_Product_Recommendations() {
-	return PROREEN_Product_Recommendations::instance();
+function UPSPR_Product_Recommendations() {
+	return UPSPR_Product_Recommendations::upspr_instance();
 }
 
 // Global for backwards compatibility.
-$GLOBALS['proreen_product_recommendations'] = PROREEN_Product_Recommendations();
+$GLOBALS['upspr_product_recommendations'] = UPSPR_Product_Recommendations();
 
 // Schedule data building.
-add_action( 'proreen_product_recommendations_build_data', array( 'PREProduct_Recommendations_Data', 'build_recommendation_data' ) );
-add_action( 'proreen_product_recommendations_update_data', array( 'PREProduct_Recommendations_Data', 'build_recommendation_data' ) );
+add_action( 'upspr_product_recommendations_build_data', array( 'UPSPR_Recommendations_Data', 'upspr_build_recommendation_data' ) );
+add_action( 'upspr_product_recommendations_update_data', array( 'UPSPR_Recommendations_Data', 'upspr_build_recommendation_data' ) );

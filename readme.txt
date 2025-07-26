@@ -101,14 +101,14 @@ Initial release of UpSellSmart – Product Recommendations plugin.
 == Technical Details ==
 
 **Database Tables:**
-The plugin creates one custom table (`wp_wc_product_recommendations`) to store recommendation data efficiently.
+The plugin creates one custom table (`wp_upspr_product_recommendations`) to store recommendation data efficiently.
 
 **Hooks and Filters:**
 The plugin provides various hooks and filters for developers to customize functionality:
 
-* `wc_product_recommendations_get_recommendations` - Filter recommendations before display
-* `wc_product_recommendations_display_args` - Modify display arguments
-* `wc_product_recommendations_engine_settings` - Customize engine parameters
+* `upspr_product_recommendations_get_recommendations` - Filter recommendations before display
+* `upspr_product_recommendations_display_args` - Modify display arguments
+* `upspr_product_recommendations_engine_settings` - Customize engine parameters
 
 **Performance:**
 * Uses WordPress transients for caching

@@ -1,12 +1,12 @@
-.wc-product-recommendations-admin {
+.upspr-product-recommendations-admin {
   max-width: 1200px;
 }
 
-.nav-tab-wrapper {
+.upspr-nav-tab-wrapper {
   margin-bottom: 2em;
 }
 
-.tab-content {
+.upspr-tab-content {
   display: none;
   background: #fff;
   padding: 2em;
@@ -14,37 +14,37 @@
   border-top: none;
 }
 
-.tab-content.active {
+.upspr-tab-content.active {
   display: block;
 }
 
-.form-table th {
+.upspr-form-table th {
   width: 200px;
   padding: 15px 10px 15px 0;
 }
 
-.form-table td {
+.upspr-form-table td {
   padding: 15px 10px;
 }
 
-.form-table fieldset label {
+.upspr-form-table fieldset label {
   display: block;
   margin-bottom: 0.5em;
 }
 
-.form-table fieldset input[type="checkbox"] {
+.upspr-form-table fieldset input[type="checkbox"] {
   margin-right: 0.5em;
 }
 
-.form-table input[type="number"] {
+.upspr-form-table input[type="number"] {
   width: 80px;
 }
 
-.form-table select {
+.upspr-form-table select {
   min-width: 200px;
 }
 
-.wc-product-recommendations-stats {
+.upspr-product-recommendations-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1em;
@@ -117,29 +117,29 @@
 }
 
 /* Product edit page styles */
-.wc-product-recommendations-fields {
+.upspr-product-recommendations-fields {
   border-top: 1px solid #eee;
   padding-top: 1em;
   margin-top: 1em;
 }
 
-.wc-product-recommendations-fields .form-field {
+.upspr-product-recommendations-fields .upspr-form-field {
   margin-bottom: 1.5em;
 }
 
-.wc-product-recommendations-fields label {
+.upspr-product-recommendations-fields label {
   font-weight: 600;
   margin-bottom: 0.5em;
   display: block;
 }
 
-.wc-product-recommendations-fields .select2-container {
+.upspr-product-recommendations-fields .select2-container {
   min-width: 300px;
 }
 
 /* Responsive admin styles */
 @media (max-width: 768px) {
-  .wc-product-recommendations-stats {
+  .upspr-product-recommendations-stats {
     grid-template-columns: 1fr;
   }
 
@@ -151,14 +151,14 @@
     width: 100%;
   }
 
-  .form-table th,
-  .form-table td {
+  .upspr-form-table th,
+  .upspr-form-table td {
     display: block;
     width: 100%;
     padding: 10px 0;
   }
 
-  .form-table th {
+  .upspr-form-table th {
     border-bottom: none;
     padding-bottom: 5px;
   }

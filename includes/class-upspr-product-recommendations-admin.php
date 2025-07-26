@@ -7,26 +7,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PROREEN_Product_Recommendations_Admin {
+class UPSPR_Product_Recommendations_Admin {
 
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action( 'woocommerce_product_options_related', array( $this, 'add_product_recommendations_fields' ) );
-		add_action( 'woocommerce_process_product_meta', array( $this, 'save_product_recommendations_fields' ) );
+		add_action( 'admin_menu', array( $this, 'upspr_admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'upspr_admin_init' ) );
+		add_action( 'woocommerce_product_options_related', array( $this, 'upspr_add_product_recommendations_fields' ) );
+		add_action( 'woocommerce_process_product_meta', array( $this, 'upspr_save_product_recommendations_fields' ) );
 	}
 
 	/**
 	 * Add admin menu
 	 */
-	public function admin_menu() {
+	public function upspr_admin_menu() {
 		add_submenu_page(
 			'woocommerce',
 			__( 'Product Recommendations', 'upsellsmart-product-recommendations' ),
 			__( 'Recommendations', 'upsellsmart-product-recommendations' ),
 			'manage_woocommerce',
 			'upsellsmart-product-recommendations',
-			array( $this, 'admin_page' )
+			array( $this, 'upspr_admin_page' )
 		);
 	}
 
@@ -36,7 +36,7 @@ class PROREEN_Product_Recommendations_Admin {
 	 * @param array $settings The submitted settings.
 	 * @return array Sanitized settings.
 	 */
-	public function sanitize_settings( $settings ) {
+	public function upspr_sanitize_settings( $settings ) {
 		$sanitized = array();
 
 		// General settings
@@ -87,81 +87,81 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Initialize admin settings
 	 */
-	public function admin_init() {
+	public function upspr_admin_init() {
 		register_setting(
-			'proreen_product_recommendations_settings',
-			'proreen_product_recommendations_settings',
+			'upspr_product_recommendations_settings',
+			'upspr_product_recommendations_settings',
 			array(
-				'sanitize_callback' => array( $this, 'sanitize_settings' ),
+				'sanitize_callback' => array( $this, 'upspr_sanitize_settings' ),
 			)
 		);
 		// General Settings Section.
 		add_settings_section(
-			'proreen_product_recommendations_general',
+			'upspr_product_recommendations_general',
 			__( 'Setting Configuration', 'upsellsmart-product-recommendations' ),
-			array( $this, 'general_section_callback' ),
-			'proreen_product_recommendations_settings'
+			array( $this, 'upspr_general_section_callback' ),
+			'upspr_product_recommendations_settings'
 		);
 
 		// Engine Settings Section.
 		add_settings_section(
-			'proreen_product_recommendations_engines',
+			'upspr_product_recommendations_engines',
 			__( 'Recommendation Engines', 'upsellsmart-product-recommendations' ),
-			array( $this, 'engines_section_callback' ),
-			'proreen_product_recommendations_settings'
+			array( $this, 'upspr_engines_section_callback' ),
+			'upspr_product_recommendations_settings'
 		);
 
 		// Display Settings Section.
 		add_settings_section(
-			'proreen_product_recommendations_display',
+			'upspr_product_recommendations_display',
 			__( 'Display Settings', 'upsellsmart-product-recommendations' ),
-			array( $this, 'display_section_callback' ),
-			'proreen_product_recommendations_settings'
+			array( $this, 'upspr_display_section_callback' ),
+			'upspr_product_recommendations_settings'
 		);
 
-		$this->add_settings_fields();
+		$this->upspr_add_settings_fields();
 	}
 
 	/**
 	 * Add settings fields
 	 */
-	private function add_settings_fields() {
+	private function upspr_add_settings_fields() {
 		// General fields
 		add_settings_field(
 			'enabled',
 			__( 'Enable Recommendations', 'upsellsmart-product-recommendations' ),
-			array( $this, 'checkbox_field' ),
-			'proreen_product_recommendations_settings',
-			'proreen_product_recommendations_general',
+			array( $this, 'upspr_checkbox_field' ),
+			'upspr_product_recommendations_settings',
+			'upspr_product_recommendations_general',
 			array(
-				'field'       => 'enabled',
-				'description' => __( 'Enable product recommendations globally', 'upsellsmart-product-recommendations' ),
+				'field'             => 'enabled',
+				'upspr_description' => __( 'Enable product recommendations globally', 'upsellsmart-product-recommendations' ),
 			)
 		);
 
 		add_settings_field(
 			'active_engine',
 			__( 'Active Engine', 'upsellsmart-product-recommendations' ),
-			array( $this, 'select_field' ),
-			'proreen_product_recommendations_settings',
-			'proreen_product_recommendations_general',
+			array( $this, 'upspr_select_field' ),
+			'upspr_product_recommendations_settings',
+			'upspr_product_recommendations_general',
 			array(
-				'field'       => 'active_engine',
-				'options'     => array(
+				'field'             => 'active_engine',
+				'options'           => array(
 					'content'     => __( 'Content-Based (Categories/Tags)', 'upsellsmart-product-recommendations' ),
 					'association' => __( 'Association-Based (Frequently Bought Together)', 'upsellsmart-product-recommendations' ),
 					'hybrid'      => __( 'Hybrid (Both Engines)', 'upsellsmart-product-recommendations' ),
 				),
-				'description' => __( 'Choose which recommendation engine to use', 'upsellsmart-product-recommendations' ),
+				'upspr_description' => __( 'Choose which recommendation engine to use', 'upsellsmart-product-recommendations' ),
 			)
 		);
 
 		add_settings_field(
 			'show_locations',
 			__( 'Display Locations', 'upsellsmart-product-recommendations' ),
-			array( $this, 'checkbox_group_field' ),
-			'proreen_product_recommendations_settings',
-			'proreen_product_recommendations_general',
+			array( $this, 'upspr_checkbox_group_field' ),
+			'upspr_product_recommendations_settings',
+			'upspr_product_recommendations_general',
 			array(
 				'fields' => array(
 					'show_on_product'  => __( 'Single Product Page', 'upsellsmart-product-recommendations' ),
@@ -174,14 +174,14 @@ class PROREEN_Product_Recommendations_Admin {
 		add_settings_field(
 			'max_recommendations',
 			__( 'Maximum Recommendations', 'upsellsmart-product-recommendations' ),
-			array( $this, 'number_field' ),
-			'proreen_product_recommendations_settings',
-			'proreen_product_recommendations_general',
+			array( $this, 'upspr_number_field' ),
+			'upspr_product_recommendations_settings',
+			'upspr_product_recommendations_general',
 			array(
-				'field'       => 'max_recommendations',
-				'min'         => 1,
-				'max'         => 20,
-				'description' => __( 'Maximum number of products to recommend', 'upsellsmart-product-recommendations' ),
+				'field'             => 'max_recommendations',
+				'min'               => 1,
+				'max'               => 20,
+				'upspr_description' => __( 'Maximum number of products to recommend', 'upsellsmart-product-recommendations' ),
 			)
 		);
 	}
@@ -189,40 +189,40 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Admin page
 	 */
-	public function admin_page() {
+	public function upspr_admin_page() {
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			
-			<div class="wc-product-recommendations-admin">
-				<div class="nav-tab-wrapper">
-					<a href="#general" class="nav-tab nav-tab-active"><?php esc_html_e( 'General', 'upsellsmart-product-recommendations' ); ?></a>
-					<a href="#engines" class="nav-tab"><?php esc_html_e( 'Engines', 'upsellsmart-product-recommendations' ); ?></a>
-					<a href="#display" class="nav-tab"><?php esc_html_e( 'Display', 'upsellsmart-product-recommendations' ); ?></a>
-					<a href="#tools" class="nav-tab"><?php esc_html_e( 'Tools', 'upsellsmart-product-recommendations' ); ?></a>
+			<div class="upspr-product-recommendations-admin">
+				<div class="upspr-nav-tab-wrapper">
+					<a href="#general" class="upspr-nav-tab nav-tab-active"><?php esc_html_e( 'General', 'upsellsmart-product-recommendations' ); ?></a>
+					<a href="#engines" class="upspr-nav-tab"><?php esc_html_e( 'Engines', 'upsellsmart-product-recommendations' ); ?></a>
+					<a href="#display" class="upspr-nav-tab"><?php esc_html_e( 'Display', 'upsellsmart-product-recommendations' ); ?></a>
+					<a href="#tools" class="upspr-nav-tab"><?php esc_html_e( 'Tools', 'upsellsmart-product-recommendations' ); ?></a>
 				</div>
 				
 				<form method="post" action="options.php">
-					<?php settings_fields( 'proreen_product_recommendations_settings' ); ?>
+					<?php settings_fields( 'upspr_product_recommendations_settings' ); ?>
 					
-					<div id="general" class="tab-content active">
+					<div id="general" class="upspr-tab-content active">
 						<h2><?php esc_html_e( 'General Settings', 'upsellsmart-product-recommendations' ); ?></h2>
-						<?php do_settings_sections( 'proreen_product_recommendations_settings' ); ?>
+						<?php do_settings_sections( 'upspr_product_recommendations_settings' ); ?>
 					</div>
 					
-					<div id="engines" class="tab-content">
+					<div id="engines" class="upspr-tab-content">
 						<h2><?php esc_html_e( 'Engine Configuration', 'upsellsmart-product-recommendations' ); ?></h2>
-						<?php $this->render_engine_settings(); ?>
+						<?php $this->upspr_render_engine_settings(); ?>
 					</div>
 					
-					<div id="display" class="tab-content">
+					<div id="display" class="upspr-tab-content">
 						<h2><?php esc_html_e( 'Display Settings', 'upsellsmart-product-recommendations' ); ?></h2>
-						<?php $this->render_display_settings(); ?>
+						<?php $this->upspr_render_display_settings(); ?>
 					</div>
 					
-					<div id="tools" class="tab-content">
+					<div id="tools" class="upspr-tab-content">
 						<h2><?php esc_html_e( 'Tools & Maintenance', 'upsellsmart-product-recommendations' ); ?></h2>
-						<?php $this->render_tools(); ?>
+						<?php $this->upspr_render_tools(); ?>
 					</div>
 					
 					<?php submit_button(); ?>
@@ -235,29 +235,29 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Render engine settings
 	 */
-	private function render_engine_settings() {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	private function upspr_render_engine_settings() {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		?>
-		<table class="form-table">
+		<table class="upspr-form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Content Engine Settings', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
 					<fieldset>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_categories]" value="yes" <?php checked( isset( $settings['content_engine']['match_categories'] ) ? $settings['content_engine']['match_categories'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[content_engine][match_categories]" value="yes" <?php checked( isset( $settings['content_engine']['match_categories'] ) ? $settings['content_engine']['match_categories'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Match by Categories', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_tags]" value="yes" <?php checked( isset( $settings['content_engine']['match_tags'] ) ? $settings['content_engine']['match_tags'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[content_engine][match_tags]" value="yes" <?php checked( isset( $settings['content_engine']['match_tags'] ) ? $settings['content_engine']['match_tags'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Match by Tags', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[content_engine][match_attributes]" value="yes" <?php checked( isset( $settings['content_engine']['match_attributes'] ) ? $settings['content_engine']['match_attributes'] : 'no', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[content_engine][match_attributes]" value="yes" <?php checked( isset( $settings['content_engine']['match_attributes'] ) ? $settings['content_engine']['match_attributes'] : 'no', 'yes' ); ?>>
 							<?php esc_html_e( 'Match by Attributes', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
 							<?php esc_html_e( 'Sort by:', 'upsellsmart-product-recommendations' ); ?>
-							<select name="proreen_product_recommendations_settings[content_engine][sort_by]">
+							<select name="upspr_product_recommendations_settings[content_engine][sort_by]">
 								<option value="popularity" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'popularity' ); ?>><?php esc_html_e( 'Popularity', 'upsellsmart-product-recommendations' ); ?></option>
 								<option value="rating" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'rating' ); ?>><?php esc_html_e( 'Rating', 'upsellsmart-product-recommendations' ); ?></option>
 								<option value="price_low" <?php selected( isset( $settings['content_engine']['sort_by'] ) ? $settings['content_engine']['sort_by'] : 'popularity', 'price_low' ); ?>><?php esc_html_e( 'Price: Low to High', 'upsellsmart-product-recommendations' ); ?></option>
@@ -274,18 +274,18 @@ class PROREEN_Product_Recommendations_Admin {
 					<fieldset>
 						<label>
 							<?php esc_html_e( 'Minimum Support (co-purchases):', 'upsellsmart-product-recommendations' ); ?>
-							<input type="number" name="proreen_product_recommendations_settings[association_engine][min_support]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_support'] ) ? $settings['association_engine']['min_support'] : 2 ); ?>" min="1" max="100">
+							<input type="number" name="upspr_product_recommendations_settings[association_engine][min_support]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_support'] ) ? $settings['association_engine']['min_support'] : 2 ); ?>" min="1" max="100">
 						</label><br>
 						<label>
 							<?php esc_html_e( 'Days to look back:', 'upsellsmart-product-recommendations' ); ?>
-							<input type="number" name="proreen_product_recommendations_settings[association_engine][days_back]" value="<?php echo esc_attr( isset( $settings['association_engine']['days_back'] ) ? $settings['association_engine']['days_back'] : 365 ); ?>" min="30" max="3650">
+							<input type="number" name="upspr_product_recommendations_settings[association_engine][days_back]" value="<?php echo esc_attr( isset( $settings['association_engine']['days_back'] ) ? $settings['association_engine']['days_back'] : 365 ); ?>" min="30" max="3650">
 						</label><br>
 						<label>
 							<?php esc_html_e( 'Minimum Confidence:', 'upsellsmart-product-recommendations' ); ?>
-							<input type="number" name="proreen_product_recommendations_settings[association_engine][min_confidence]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_confidence'] ) ? $settings['association_engine']['min_confidence'] : 0.1 ); ?>" min="0.01" max="1" step="0.01">
+							<input type="number" name="upspr_product_recommendations_settings[association_engine][min_confidence]" value="<?php echo esc_attr( isset( $settings['association_engine']['min_confidence'] ) ? $settings['association_engine']['min_confidence'] : 0.1 ); ?>" min="0.01" max="1" step="0.01">
 						</label><br>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[association_engine][use_views]" value="yes" <?php checked( isset( $settings['association_engine']['use_views'] ) ? $settings['association_engine']['use_views'] : 'no', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[association_engine][use_views]" value="yes" <?php checked( isset( $settings['association_engine']['use_views'] ) ? $settings['association_engine']['use_views'] : 'no', 'yes' ); ?>>
 							<?php esc_html_e( 'Include view history (requires tracking)', 'upsellsmart-product-recommendations' ); ?>
 						</label>
 					</fieldset>
@@ -298,28 +298,28 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Render display settings
 	 */
-	private function render_display_settings() {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	private function upspr_render_display_settings() {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		?>
-		<table class="form-table">
+		<table class="upspr-form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Section Title', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
-					<input type="text" name="proreen_product_recommendations_settings[display_settings][title]" value="<?php echo esc_attr( isset( $settings['display_settings']['title'] ) ? $settings['display_settings']['title'] : 'You might also like' ); ?>" class="regular-text">
-					<p class="description"><?php esc_html_e( 'Title displayed above recommendations', 'upsellsmart-product-recommendations' ); ?></p>
+					<input type="text" name="upspr_product_recommendations_settings[display_settings][title]" value="<?php echo esc_attr( isset( $settings['display_settings']['title'] ) ? $settings['display_settings']['title'] : 'You might also like' ); ?>" class="regular-text">
+					<p class="upspr_description"><?php esc_html_e( 'Title displayed above recommendations', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Columns', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
-					<select name="proreen_product_recommendations_settings[display_settings][columns]">
+					<select name="upspr_product_recommendations_settings[display_settings][columns]">
 						<option value="2" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 2 ); ?>>2</option>
 						<option value="3" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 3 ); ?>>3</option>
 						<option value="4" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 4 ); ?>>4</option>
 						<option value="5" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 5 ); ?>>5</option>
 						<option value="6" <?php selected( isset( $settings['display_settings']['columns'] ) ? $settings['display_settings']['columns'] : 4, 6 ); ?>>6</option>
 					</select>
-					<p class="description"><?php esc_html_e( 'Number of columns to display recommendations in', 'upsellsmart-product-recommendations' ); ?></p>
+					<p class="upspr_description"><?php esc_html_e( 'Number of columns to display recommendations in', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -327,15 +327,15 @@ class PROREEN_Product_Recommendations_Admin {
 				<td>
 					<fieldset>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_price]" value="yes" <?php checked( isset( $settings['display_settings']['show_price'] ) ? $settings['display_settings']['show_price'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[display_settings][show_price]" value="yes" <?php checked( isset( $settings['display_settings']['show_price'] ) ? $settings['display_settings']['show_price'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Show Price', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_rating]" value="yes" <?php checked( isset( $settings['display_settings']['show_rating'] ) ? $settings['display_settings']['show_rating'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[display_settings][show_rating]" value="yes" <?php checked( isset( $settings['display_settings']['show_rating'] ) ? $settings['display_settings']['show_rating'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Show Rating', 'upsellsmart-product-recommendations' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" name="proreen_product_recommendations_settings[display_settings][show_add_to_cart]" value="yes" <?php checked( isset( $settings['display_settings']['show_add_to_cart'] ) ? $settings['display_settings']['show_add_to_cart'] : 'yes', 'yes' ); ?>>
+							<input type="checkbox" name="upspr_product_recommendations_settings[display_settings][show_add_to_cart]" value="yes" <?php checked( isset( $settings['display_settings']['show_add_to_cart'] ) ? $settings['display_settings']['show_add_to_cart'] : 'yes', 'yes' ); ?>>
 							<?php esc_html_e( 'Show Add to Cart Button', 'upsellsmart-product-recommendations' ); ?>
 						</label>
 					</fieldset>
@@ -348,11 +348,11 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Render tools section
 	 */
-	private function render_tools() {
+	private function upspr_render_tools() {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
-		$cache_key  = 'proreen_product_recommendations_count';
+		$table_name = $wpdb->prefix . 'upspr_product_recommendations';
+		$cache_key  = 'upspr_product_recommendations_count';
 		$count      = wp_cache_get( $cache_key, 'product_recommendations' );
 
 		if ( false === $count ) {
@@ -369,7 +369,7 @@ class PROREEN_Product_Recommendations_Admin {
 			wp_cache_set( $cache_key, $count, 'product_recommendations', 300 );
 		}
 		?>
-		<table class="form-table">
+		<table class="upspr-form-table">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Recommendation Data', 'upsellsmart-product-recommendations' ); ?></th>
 				<td>
@@ -379,9 +379,9 @@ class PROREEN_Product_Recommendations_Admin {
 					echo esc_html( sprintf( __( 'Current recommendations in database: %d', 'upsellsmart-product-recommendations' ), $count ) );
 					?>
 					</p>
-					<button type="button" class="button" id="rebuild-recommendations"><?php esc_html_e( 'Rebuild Recommendation Data', 'upsellsmart-product-recommendations' ); ?></button>
-					<button type="button" class="button" id="clear-recommendations"><?php esc_html_e( 'Clear All Data', 'upsellsmart-product-recommendations' ); ?></button>
-					<p class="description"><?php esc_html_e( 'Rebuild data to update recommendations based on recent orders. This may take a few minutes.', 'upsellsmart-product-recommendations' ); ?></p>
+					<button type="button" class="button" id="upspr-rebuild-recommendations"><?php esc_html_e( 'Rebuild Recommendation Data', 'upsellsmart-product-recommendations' ); ?></button>
+					<button type="button" class="button" id="upspr-clear-recommendations"><?php esc_html_e( 'Clear All Data', 'upsellsmart-product-recommendations' ); ?></button>
+					<p class="upspr_description"><?php esc_html_e( 'Rebuild data to update recommendations based on recent orders. This may take a few minutes.', 'upsellsmart-product-recommendations' ); ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -389,8 +389,7 @@ class PROREEN_Product_Recommendations_Admin {
 				<td>
 					<button type="button" class="button"><?php esc_html_e( 'Export Settings', 'upsellsmart-product-recommendations' ); ?></button>
 					<button type="button" class="button"><?php esc_html_e( 'Import Settings', 'upsellsmart-product-recommendations' ); ?></button>
-					<p class="description"><?php esc_html_e( 'Export or import plugin settings for backup or migration.', 'upsellsmart-product-recommendations' ); ?></p>
-				</td>
+					<p class="upspr_description"><?php esc_html_e( 'Export or import plugin settings for backup or migration.', 'upsellsmart-product-recommendations' ); ?></p>
 			</tr>
 		</table>
 		<?php
@@ -399,15 +398,15 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Add product-specific recommendation fields
 	 */
-	public function add_product_recommendations_fields() {
+	public function upspr_add_product_recommendations_fields() {
 		global $post;
 		?>
 		<div class="options_group">
-			<p class="form-field">
-				<label for="custom_recommendations"><?php esc_html_e( 'Custom Recommendations', 'upsellsmart-product-recommendations' ); ?></label>
-				<select class="wc-product-search" multiple="multiple" style="width: 50%;" id="custom_recommendations" name="custom_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products&hellip;', 'upsellsmart-product-recommendations' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
+			<p class="upspr-form-field">
+				<label for="upspr_custom_recommendations"><?php esc_html_e( 'Custom Recommendations', 'upsellsmart-product-recommendations' ); ?></label>
+				<select class="upspr-product-search" multiple="multiple" style="width: 50%;" id="upspr_custom_recommendations" name="upspr_custom_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products&hellip;', 'upsellsmart-product-recommendations' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
 					<?php
-					$product_ids = get_post_meta( $post->ID, '_custom_recommendations', true );
+					$product_ids = get_post_meta( $post->ID, '_upspr_custom_recommendations', true );
 					if ( $product_ids ) {
 						foreach ( $product_ids as $product_id ) {
 							$product = wc_get_product( $product_id );
@@ -421,11 +420,11 @@ class PROREEN_Product_Recommendations_Admin {
 				<?php echo esc_html( wc_help_tip( __( 'Manually select products to recommend for this product. These will override algorithmic recommendations.', 'upsellsmart-product-recommendations' ) ) ); ?>
 			</p>
 			
-			<p class="form-field">
-				<label for="excluded_recommendations"><?php esc_html_e( 'Exclude from Recommendations', 'upsellsmart-product-recommendations' ); ?></label>
-				<select class="wc-product-search" multiple="multiple" style="width: 50%;" id="excluded_recommendations" name="excluded_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products to exclude&hellip;', 'upsellsmart-product-recommendations' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
+			<p class="upspr-form-field">
+				<label for="upspr_excluded_recommendations"><?php esc_html_e( 'Exclude from Recommendations', 'upsellsmart-product-recommendations' ); ?></label>
+				<select class="upspr-product-search" multiple="multiple" style="width: 50%;" id="upspr_excluded_recommendations" name="upspr_excluded_recommendations[]" data-placeholder="<?php esc_attr_e( 'Search for products to exclude&hellip;', 'upsellsmart-product-recommendations' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude="<?php echo intval( $post->ID ); ?>">
 					<?php
-					$excluded_ids = get_post_meta( $post->ID, '_excluded_recommendations', true );
+					$excluded_ids = get_post_meta( $post->ID, '_upspr_excluded_recommendations', true );
 					if ( $excluded_ids ) {
 						foreach ( $excluded_ids as $product_id ) {
 							$product = wc_get_product( $product_id );
@@ -445,7 +444,7 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Save product recommendation fields
 	 */
-	public function save_product_recommendations_fields( $post_id ) {
+	public function upspr_save_product_recommendations_fields( $post_id ) {
 		// Check if nonce is valid.
 		if ( ! isset( $_POST['woocommerce_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ), 'woocommerce_save_data' ) ) {
 			return;
@@ -461,53 +460,53 @@ class PROREEN_Product_Recommendations_Admin {
 			return;
 		}
 
-		$custom_recommendations   = isset( $_POST['custom_recommendations'] ) ? array_map( 'intval', $_POST['custom_recommendations'] ) : array();
-		$excluded_recommendations = isset( $_POST['excluded_recommendations'] ) ? array_map( 'intval', $_POST['excluded_recommendations'] ) : array();
+		$upspr_custom_recommendations   = isset( $_POST['upspr_custom_recommendations'] ) ? array_map( 'intval', $_POST['upspr_custom_recommendations'] ) : array();
+		$upspr_excluded_recommendations = isset( $_POST['upspr_excluded_recommendations'] ) ? array_map( 'intval', $_POST['upspr_excluded_recommendations'] ) : array();
 
-		update_post_meta( $post_id, '_custom_recommendations', $custom_recommendations );
-		update_post_meta( $post_id, '_excluded_recommendations', $excluded_recommendations );
+		update_post_meta( $post_id, '_upspr_custom_recommendations', $upspr_custom_recommendations );
+		update_post_meta( $post_id, '_upspr_excluded_recommendations', $upspr_excluded_recommendations );
 	}
 
 	/**
 	 * Field callbacks
 	 */
-	public function checkbox_field( $args ) {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public function upspr_checkbox_field( $args ) {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		$value    = isset( $settings[ $args['field'] ] ) ? $settings[ $args['field'] ] : 'no';
 		?>
 		<label>
-			<input type="checkbox" name="proreen_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
+			<input type="checkbox" name="upspr_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
 			<?php
-			if ( isset( $args['description'] ) ) {
-				echo esc_html( $args['description'] );}
+			if ( isset( $args['upspr_description'] ) ) {
+				echo esc_html( $args['upspr_description'] );}
 			?>
 		</label>
 		<?php
 	}
 
-	public function select_field( $args ) {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public function upspr_select_field( $args ) {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		$value    = isset( $settings[ $args['field'] ] ) ? $settings[ $args['field'] ] : '';
 		?>
-		<select name="proreen_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]">
+		<select name="upspr_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]">
 			<?php foreach ( $args['options'] as $key => $label ) : ?>
 				<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $value, $key ); ?>><?php echo esc_html( $label ); ?></option>
 			<?php endforeach; ?>
 		</select>
-		<?php if ( isset( $args['description'] ) ) : ?>
-			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
+		<?php if ( isset( $args['upspr_description'] ) ) : ?>
+			<p class="upspr_description"><?php echo esc_html( $args['upspr_description'] ); ?></p>
 		<?php endif; ?>
 		<?php
 	}
 
-	public function checkbox_group_field( $args ) {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public function upspr_checkbox_group_field( $args ) {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		?>
 		<fieldset>
 			<?php foreach ( $args['fields'] as $field => $label ) : ?>
 				<?php $value = isset( $settings[ $field ] ) ? $settings[ $field ] : 'no'; ?>
 				<label>
-					<input type="checkbox" name="proreen_product_recommendations_settings[<?php echo esc_attr( $field ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
+					<input type="checkbox" name="upspr_product_recommendations_settings[<?php echo esc_attr( $field ); ?>]" value="yes" <?php checked( $value, 'yes' ); ?>>
 					<?php echo esc_html( $label ); ?>
 				</label><br>
 			<?php endforeach; ?>
@@ -520,13 +519,13 @@ class PROREEN_Product_Recommendations_Admin {
 	 *
 	 * @param array $args Field arguments including field name, min, max, and description.
 	 */
-	public function number_field( $args ) {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public function upspr_number_field( $args ) {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		$value    = isset( $settings[ $args['field'] ] ) ? $settings[ $args['field'] ] : '';
 		?>
-		<input type="number" name="proreen_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="<?php echo esc_attr( $value ); ?>" min="<?php echo esc_attr( $args['min'] ); ?>" max="<?php echo esc_attr( $args['max'] ); ?>">
-		<?php if ( isset( $args['description'] ) ) : ?>
-			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
+		<input type="number" name="upspr_product_recommendations_settings[<?php echo esc_attr( $args['field'] ); ?>]" value="<?php echo esc_attr( $value ); ?>" min="<?php echo esc_attr( $args['min'] ); ?>" max="<?php echo esc_attr( $args['max'] ); ?>">
+		<?php if ( isset( $args['upspr_description'] ) ) : ?>
+			<p class="upspr_description"><?php echo esc_html( $args['upspr_description'] ); ?></p>
 		<?php endif; ?>
 		<?php
 	}
@@ -534,21 +533,21 @@ class PROREEN_Product_Recommendations_Admin {
 	/**
 	 * Section callbacks
 	 */
-	public function general_section_callback() {
+	public function upspr_general_section_callback() {
 		echo '<p>' . esc_html__( 'Configure general recommendation settings.', 'upsellsmart-product-recommendations' ) . '</p>';
 	}
 
 	/**
 	 * Engines section callback
 	 */
-	public function engines_section_callback() {
+	public function upspr_engines_section_callback() {
 		echo '<p>' . esc_html__( 'Configure recommendation engine parameters.', 'upsellsmart-product-recommendations' ) . '</p>';
 	}
 
 	/**
 	 * Display section callback
 	 */
-	public function display_section_callback() {
+	public function upspr_display_section_callback() {
 		echo '<p>' . esc_html__( 'Configure how recommendations are displayed.', 'upsellsmart-product-recommendations' ) . '</p>';
 	}
 }

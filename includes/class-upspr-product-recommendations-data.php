@@ -7,31 +7,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PREProduct_Recommendations_Data {
+class UPSPR_Recommendations_Data {
 
 	/**
 	 * Build recommendation data
 	 */
-	public static function build_recommendation_data() {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public static function upspr_build_recommendation_data() {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 
 		// Build association-based recommendations
-		self::build_association_recommendations();
+		self::upspr_build_association_recommendations();
 
 		// Clean up old data
-		self::cleanup_old_data();
+		self::upspr_cleanup_old_data();
 
 		// Update last build time
-		update_option( 'proreen_product_recommendations_last_build', time() );
+		update_option( 'upspr_product_recommendations_last_build', time() );
 	}
 
 	/**
 	 * Build association-based recommendations
 	 */
-	private static function build_association_recommendations() {
+	private static function upspr_build_association_recommendations() {
 		global $wpdb;
 
-		$settings             = get_option( 'proreen_product_recommendations_settings', array() );
+		$settings             = get_option( 'upspr_product_recommendations_settings', array() );
 		$association_settings = isset( $settings['association_engine'] ) ? $settings['association_engine'] : array();
 
 		$min_support    = isset( $association_settings['min_support'] ) ? intval( $association_settings['min_support'] ) : 2;
@@ -90,11 +90,11 @@ class PREProduct_Recommendations_Data {
 		}
 
 		// Clear existing association data
-		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		$table_name = $wpdb->prefix . 'upspr_product_recommendations';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->delete( $table_name, array( 'engine' => 'association' ) );
 		// Clear cache for product recommendations after deletion
-		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
+		wp_cache_delete( 'upspr_product_recommendations', 'upspr_product_recommendations' );
 
 		// Calculate confidence and insert recommendations
 		foreach ( $product_pairs as $pair_key => $support ) {
@@ -126,10 +126,10 @@ class PREProduct_Recommendations_Data {
 	/**
 	 * Clean up old recommendation data
 	 */
-	private static function cleanup_old_data() {
+	private static function upspr_cleanup_old_data() {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		$table_name = $wpdb->prefix . 'upspr_product_recommendations';
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		// Table names cannot be parameterized, and are safely constructed using $wpdb->prefix.
@@ -149,7 +149,7 @@ class PREProduct_Recommendations_Data {
 			)
 		);
 
-		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
+		wp_cache_delete( 'upspr_product_recommendations', 'upspr_product_recommendations' );
 
 		$wpdb->query(
 			$wpdb->prepare(
@@ -163,7 +163,7 @@ class PREProduct_Recommendations_Data {
 			)
 		);
 
-		wp_cache_delete( 'proreen_product_recommendations', 'proreen_product_recommendations' );
+		wp_cache_delete( 'upspr_product_recommendations', 'upspr_product_recommendations' );
 
 		// phpcs:enable
 	}
@@ -172,15 +172,15 @@ class PREProduct_Recommendations_Data {
 	/**
 	 * Get recommendation statistics
 	 */
-	public static function get_stats() {
+	public static function upspr_get_stats() {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		$table_name = $wpdb->prefix . 'upspr_product_recommendations';
 
 		$stats     = array();
-		$cache_key = 'proreen_product_recommendations_stats';
+		$cache_key = 'upspr_product_recommendations_stats';
 
-		$stats = wp_cache_get( $cache_key, 'proreen_product_recommendations' );
+		$stats = wp_cache_get( $cache_key, 'upspr_product_recommendations' );
 
 		if ( false === $stats ) {
 			$stats = array();
@@ -210,9 +210,9 @@ class PREProduct_Recommendations_Data {
 
 			// phpcs:enable
 
-			$stats['last_build'] = get_option( 'proreen_product_recommendations_last_build', 0 );
+			$stats['last_build'] = get_option( 'upspr_product_recommendations_last_build', 0 );
 
-			wp_cache_set( $cache_key, $stats, 'proreen_product_recommendations', 300 );
+			wp_cache_set( $cache_key, $stats, 'upspr_product_recommendations', 300 );
 		}
 
 		return $stats;

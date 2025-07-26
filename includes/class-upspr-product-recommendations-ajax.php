@@ -7,28 +7,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PROREEN_Product_Recommendations_Ajax {
+class UPSPR_Product_Recommendations_Ajax {
 
 	public function __construct() {
-		add_action( 'wp_ajax_wc_refresh_cart_recommendations', array( $this, 'refresh_cart_recommendations' ) );
-		add_action( 'wp_ajax_nopriv_wc_refresh_cart_recommendations', array( $this, 'refresh_cart_recommendations' ) );
+		add_action( 'wp_ajax_upspr_refresh_cart_recommendations', array( $this, 'upspr_refresh_cart_recommendations' ) );
+		add_action( 'wp_ajax_nopriv_upspr_refresh_cart_recommendations', array( $this, 'upspr_refresh_cart_recommendations' ) );
 
-		add_action( 'wp_ajax_wc_rebuild_recommendations', array( $this, 'rebuild_recommendations' ) );
-		add_action( 'wp_ajax_wc_clear_recommendations', array( $this, 'clear_recommendations' ) );
+		add_action( 'wp_ajax_upspr_rebuild_recommendations', array( $this, 'upspr_rebuild_recommendations' ) );
+		add_action( 'wp_ajax_upspr_clear_recommendations', array( $this, 'upspr_clear_recommendations' ) );
 
-		add_action( 'woocommerce_add_to_cart_fragments', array( $this, 'add_cart_recommendations_fragment' ) );
+		add_action( 'woocommerce_add_to_cart_fragments', array( $this, 'upspr_add_cart_recommendations_fragment' ) );
 	}
 
 	/**
 	 * Refresh cart recommendations via AJAX
 	 */
-	public function refresh_cart_recommendations() {
-		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
+	public function upspr_refresh_cart_recommendations() {
+		check_ajax_referer( 'upspr_product_recommendations_nonce', 'nonce' );
 
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		$limit    = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
 
-		$recommendations = PREProduct_Recommendations_Engine::get_cart_recommendations( $limit );
+		$recommendations = UPSPR_Recommendations_Engine::upspr_get_cart_recommendations( $limit );
 
 		if ( empty( $recommendations ) ) {
 			wp_send_json_success( array( 'html' => '' ) );
@@ -37,9 +37,9 @@ class PROREEN_Product_Recommendations_Ajax {
 
 		ob_start();
 
-		$display    = new PROREEN_Product_Recommendations_Display();
+		$display    = new UPSPR_Product_Recommendations_Display();
 		$reflection = new ReflectionClass( $display );
-		$method     = $reflection->getMethod( 'render_recommendations' );
+		$method     = $reflection->getMethod( 'upspr_render_recommendations' );
 		$method->setAccessible( true );
 		$method->invoke( $display, $recommendations, 'cart' );
 
@@ -51,8 +51,8 @@ class PROREEN_Product_Recommendations_Ajax {
 	/**
 	 * Rebuild recommendations data
 	 */
-	public function rebuild_recommendations() {
-		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
+	public function upspr_rebuild_recommendations() {
+		check_ajax_referer( 'upspr_product_recommendations_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'upsellsmart-product-recommendations' ) );
@@ -60,7 +60,7 @@ class PROREEN_Product_Recommendations_Ajax {
 		}
 
 		// Schedule the rebuild
-		wp_schedule_single_event( time() + 10, 'proreen_product_recommendations_build_data' );
+		wp_schedule_single_event( time() + 10, 'upspr_product_recommendations_build_data' );
 
 		wp_send_json_success( __( 'Recommendation data rebuild scheduled. This may take a few minutes.', 'upsellsmart-product-recommendations' ) );
 	}
@@ -68,8 +68,8 @@ class PROREEN_Product_Recommendations_Ajax {
 	/**
 	 * Clear recommendations data
 	 */
-	public function clear_recommendations() {
-		check_ajax_referer( 'proreen_product_recommendations_nonce', 'nonce' );
+	public function upspr_clear_recommendations() {
+		check_ajax_referer( 'upspr_product_recommendations_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'upsellsmart-product-recommendations' ) );
@@ -77,7 +77,7 @@ class PROREEN_Product_Recommendations_Ajax {
 		}
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'proreen_product_recommendations';
+		$table_name = $wpdb->prefix . 'upspr_product_recommendations';
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is whitelisted and safe
 		$wpdb->query( "TRUNCATE TABLE $table_name" );
 
@@ -87,33 +87,33 @@ class PROREEN_Product_Recommendations_Ajax {
 	/**
 	 * Add cart recommendations to WooCommerce fragments
 	 */
-	public function add_cart_recommendations_fragment( $fragments ) {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public function upspr_add_cart_recommendations_fragment( $fragments ) {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['show_on_cart'] ) || $settings['show_on_cart'] !== 'yes' ) {
 			return $fragments;
 		}
 
 		$limit           = isset( $settings['max_recommendations'] ) ? intval( $settings['max_recommendations'] ) : 4;
-		$recommendations = PREProduct_Recommendations_Engine::get_cart_recommendations( $limit );
+		$recommendations = UPSPR_Recommendations_Engine::upspr_get_cart_recommendations( $limit );
 
 		if ( empty( $recommendations ) ) {
-			$fragments['#wc-product-recommendations-cart'] = '<div id="wc-product-recommendations-cart"></div>';
+			$fragments['#upspr-product-recommendations-cart'] = '<div id="upspr-product-recommendations-cart"></div>';
 			return $fragments;
 		}
 
 		ob_start();
-		echo '<div id="wc-product-recommendations-cart">';
+		echo '<div id="upspr-product-recommendations-cart">';
 
-		$display    = new PROREEN_Product_Recommendations_Display();
+		$display    = new UPSPR_Product_Recommendations_Display();
 		$reflection = new ReflectionClass( $display );
-		$method     = $reflection->getMethod( 'render_recommendations' );
+		$method     = $reflection->getMethod( 'upspr_render_recommendations' );
 		$method->setAccessible( true );
 		$method->invoke( $display, $recommendations, 'cart' );
 
 		echo '</div>';
 
-		$fragments['#wc-product-recommendations-cart'] = ob_get_clean();
+		$fragments['#upspr-product-recommendations-cart'] = ob_get_clean();
 
 		return $fragments;
 	}

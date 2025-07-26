@@ -7,22 +7,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class PREProduct_Recommendations_Engine {
+class UPSPR_Recommendations_Engine {
 
 	/**
 	 * Get recommendations for a product
+	 *
+	 * @param int    $product_id Product ID to get recommendations for.
+	 * @param string $context Context for recommendations (e.g., 'product', 'cart').
+	 * @param int    $limit Number of recommendations to return.
+	 * @return array List of recommended product IDs
+	 * @throws Exception If the product ID is invalid or no recommendations are found.
+	 * @since 1.0.0
 	 */
-	public static function get_recommendations( $product_id, $context = 'product', $limit = 4 ) {
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+	public static function upspr_get_recommendations( $product_id, $context = 'product', $limit = 4 ) {
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 
 		if ( ! isset( $settings['enabled'] ) || $settings['enabled'] !== 'yes' ) {
 			return array();
 		}
 
 		// Check for custom recommendations first
-		$custom_recommendations = get_post_meta( $product_id, '_custom_recommendations', true );
-		if ( ! empty( $custom_recommendations ) ) {
-			return array_slice( $custom_recommendations, 0, $limit );
+		$upspr_custom_recommendations = get_post_meta( $product_id, '_upspr_custom_recommendations', true );
+		if ( ! empty( $upspr_custom_recommendations ) ) {
+			return array_slice( $upspr_custom_recommendations, 0, $limit );
 		}
 
 		$engine          = isset( $settings['active_engine'] ) ? $settings['active_engine'] : 'content';
@@ -30,14 +37,14 @@ class PREProduct_Recommendations_Engine {
 
 		switch ( $engine ) {
 			case 'content':
-				$recommendations = self::get_content_based_recommendations( $product_id, $limit );
+				$recommendations = self::upspr_get_content_based_recommendations( $product_id, $limit );
 				break;
 			case 'association':
-				$recommendations = self::get_association_based_recommendations( $product_id, $limit );
+				$recommendations = self::upspr_get_association_based_recommendations( $product_id, $limit );
 				break;
 			case 'hybrid':
-				$content_recs     = self::get_content_based_recommendations( $product_id, $limit / 2 );
-				$association_recs = self::get_association_based_recommendations( $product_id, $limit / 2 );
+				$content_recs     = self::upspr_get_content_based_recommendations( $product_id, $limit / 2 );
+				$association_recs = self::upspr_get_association_based_recommendations( $product_id, $limit / 2 );
 				$recommendations  = array_merge( $content_recs, $association_recs );
 				$recommendations  = array_unique( $recommendations );
 				$recommendations  = array_slice( $recommendations, 0, $limit );
@@ -45,13 +52,13 @@ class PREProduct_Recommendations_Engine {
 		}
 
 		// Filter out excluded products
-		$excluded = get_post_meta( $product_id, '_excluded_recommendations', true );
+		$excluded = get_post_meta( $product_id, '_upspr_excluded_recommendations', true );
 		if ( ! empty( $excluded ) ) {
 			$recommendations = array_diff( $recommendations, $excluded );
 		}
 
 		// Filter out out-of-stock products if needed
-		$recommendations = self::filter_available_products( $recommendations );
+		$recommendations = self::upspr_filter_available_products( $recommendations );
 
 		return array_values( $recommendations );
 	}
@@ -59,7 +66,7 @@ class PREProduct_Recommendations_Engine {
 	/**
 	 * Get recommendations for cart
 	 */
-	public static function get_cart_recommendations( $limit = 4 ) {
+	public static function upspr_get_cart_recommendations( $limit = 4 ) {
 		$cart = WC()->cart;
 		if ( ! $cart || $cart->is_empty() ) {
 			return array();
@@ -70,13 +77,13 @@ class PREProduct_Recommendations_Engine {
 			$cart_product_ids[] = $cart_item['product_id'];
 		}
 
-		$settings = get_option( 'proreen_product_recommendations_settings', array() );
+		$settings = get_option( 'upspr_product_recommendations_settings', array() );
 		$engine   = isset( $settings['active_engine'] ) ? $settings['active_engine'] : 'content';
 
 		$all_recommendations = array();
 
 		foreach ( $cart_product_ids as $product_id ) {
-			$recommendations     = self::get_recommendations( $product_id, 'cart', $limit * 2 );
+			$recommendations     = self::upspr_get_recommendations( $product_id, 'cart', $limit * 2 );
 			$all_recommendations = array_merge( $all_recommendations, $recommendations );
 		}
 
@@ -85,7 +92,7 @@ class PREProduct_Recommendations_Engine {
 		$all_recommendations = array_diff( $all_recommendations, $cart_product_ids );
 
 		// Score and sort recommendations
-		$scored_recommendations = self::score_recommendations( $all_recommendations, $cart_product_ids );
+		$scored_recommendations = self::upspr_score_recommendations( $all_recommendations, $cart_product_ids );
 
 		return array_slice( $scored_recommendations, 0, $limit );
 	}
@@ -93,8 +100,8 @@ class PREProduct_Recommendations_Engine {
 	/**
 	 * Content-based recommendations
 	 */
-	private static function get_content_based_recommendations( $product_id, $limit ) {
-		$settings         = get_option( 'proreen_product_recommendations_settings', array() );
+	private static function upspr_get_content_based_recommendations( $product_id, $limit ) {
+		$settings         = get_option( 'upspr_product_recommendations_settings', array() );
 		$content_settings = isset( $settings['content_engine'] ) ? $settings['content_engine'] : array();
 
 		$product = wc_get_product( $product_id );
@@ -161,7 +168,7 @@ class PREProduct_Recommendations_Engine {
 				break;
 			case 'rating':
 				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Sorting by rating (meta_key)
-				$args['meta_key'] = '_wc_average_rating';
+				$args['meta_key'] = '_upspr_average_rating';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
 				break;
@@ -200,12 +207,12 @@ class PREProduct_Recommendations_Engine {
 	/**
 	 * Association-based recommendations
 	 */
-	private static function get_association_based_recommendations( $product_id, $limit ) {
+	private static function upspr_get_association_based_recommendations( $product_id, $limit ) {
 		global $wpdb;
 
-		$table_name  = $wpdb->prefix . 'proreen_product_recommendations';
+		$table_name  = $wpdb->prefix . 'upspr_product_recommendations';
 		$cache_key   = 'assoc_recs_' . $product_id . '_' . $limit;
-		$cache_group = 'proreen_product_recommendations';
+		$cache_group = 'upspr_product_recommendations';
 
 		$product_ids = wp_cache_get( $cache_key, $cache_group );
 		if ( false === $product_ids ) {
@@ -244,7 +251,7 @@ class PREProduct_Recommendations_Engine {
 	/**
 	 * Score recommendations based on multiple factors
 	 */
-	private static function score_recommendations( $product_ids, $context_products = array() ) {
+	private static function upspr_score_recommendations( $product_ids, $context_products = array() ) {
 		$scored = array();
 
 		foreach ( $product_ids as $product_id ) {
@@ -260,7 +267,7 @@ class PREProduct_Recommendations_Engine {
 			$score += intval( $sales ) * 0.1;
 
 			// Rating score
-			$rating = get_post_meta( $product_id, '_wc_average_rating', true );
+			$rating = get_post_meta( $product_id, '_upspr_average_rating', true );
 			$score += floatval( $rating ) * 10;
 
 			// Price factor (middle-priced products get slight boost)
@@ -286,7 +293,7 @@ class PREProduct_Recommendations_Engine {
 	/**
 	 * Filter out unavailable products
 	 */
-	private static function filter_available_products( $product_ids ) {
+	private static function upspr_filter_available_products( $product_ids ) {
 		$available = array();
 
 		foreach ( $product_ids as $product_id ) {
